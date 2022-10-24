@@ -15,7 +15,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Navbar() {
+export default function DNavbar() {
     return (
         <Disclosure as='nav' className='bg-green-100'>
             {({ open }) => (
@@ -85,7 +85,7 @@ export default function Navbar() {
                                                 src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
                                                 alt=''
                                             />
-                                            <div className='absolute h-3 w-3 bg-red-500 bottom-0 right-0 rounded-full border-solid border-2 border-white'/>
+                                            <div className='absolute h-3 w-3 bg-red-500 bottom-0 right-0 rounded-full border-solid border-2 border-white' />
                                         </Menu.Button>
                                     </div>
                                     <Transition

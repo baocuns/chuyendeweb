@@ -1,4 +1,6 @@
 import Navbar from "./Navbar";
-import Footer from './Footer'
+import DNavbar from "./DNavbar";
+import Footer from './Footer';
+import Dashhboards from "./Dashboards";
 
-export { Navbar, Footer }
+export { Navbar, DNavbar, Footer, Dashhboards }
