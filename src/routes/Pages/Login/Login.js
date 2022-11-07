@@ -1,11 +1,17 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom'
-import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom'
+import { login } from '../../../redux/apiURL';
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react';
 
 const Login = () => {
+    // check user
+    const user = useSelector((state) => state.auth.login.currentUser)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
     const [username, setUsername] = React.useState('')
     const [password, setPassword] = React.useState('')
-
 
     const handleChangeUsername = (e) => {
         setUsername(e.target.value)
@@ -14,25 +20,17 @@ const Login = () => {
         setPassword(e.target.value)
     }
     const handleSubmit = () => {
-        axios.request({
-            method: 'post',
-            url: 'https://api.travels.games/api/v1/auth/login',
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-            },
-            data: {
-                username: username,
-                password: password,
-            }
-        })
-        .then(resule => {
-            console.log(resule);
-        })
-        .catch(err => {
-
-        })
+        const user = {
+            username: username,
+            password: password
+        }
+        login(user, dispatch, navigate)
     }
 
+    // useEf
+    useEffect(() => {
+        user && navigate('/')
+    }, [])
 
     return (
         <div className='h-screen w-full bg-[url("./images/background/background.jpg")] bg-cover bg-center '>
@@ -46,7 +44,7 @@ const Login = () => {
                             </div>
                         </div>
                         <div className="mt-5 md:col-span-2 md:mt-0">
-                            <form action="https://api.travels.games/api/v1/auth/login" method="POST">
+                            <form action="http://localhost/api/v1/auth/login" method="POST">
                                 <div className="overflow-hidden shadow sm:rounded-md">
                                     <div className="px-4 py-5 sm:p-6">
                                         <div className="grid grid-cols-6 gap-6">
@@ -69,7 +67,7 @@ const Login = () => {
                                                     Password
                                                 </label>
                                                 <input
-                                                    type="text"
+                                                    type="password"
                                                     name="password"
                                                     id="password"
                                                     autoComplete="password"
