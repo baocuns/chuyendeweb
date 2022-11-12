@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { API_HOST } from '../../../init';
 import numeral from 'numeral';
 import axios from 'axios';
 import AxiosJWT from '../../../axios';
@@ -80,7 +81,7 @@ export default function ModalAdd({ plus, handlePlus }) {
     // City
     const [areas, setAreas] = useState()
     useEffect(() => {
-        axios.get('http://localhost/api/v1/area/show/all')
+        axios.get(`${API_HOST}/api/v1/area/show/all`)
             .then(result => {
                 setAreas(result.data.data)
             })
@@ -103,7 +104,7 @@ export default function ModalAdd({ plus, handlePlus }) {
 
         const Axios = AxiosJWT(user, dispatch, loginSuccess)
         dispatch(callApiStart())
-        Axios.put('http://localhost/api/v1/service/store',
+        Axios.put(`${API_HOST}/api/v1/service/store`,
             formData,
             {
                 headers: {

@@ -1,11 +1,12 @@
 import axios from "axios";
 import { loginFailed, loginStart, loginSuccess, logoutFailed, logoutStart, logoutSuccess } from "./authSlice";
 import AxiosJWT from '../axios'
+import { API_HOST } from "../init";
 
 const login = (user, dispatch, navigate) => {
     dispatch(loginStart())
 
-    axios.post('http://localhost/api/v1/auth/login', user, {
+    axios.post(`${API_HOST}/api/v1/auth/login`, user, {
         withCredentials: true,
     })
         .then(res => {
@@ -21,7 +22,7 @@ const logout = (user, dispatch, navigate) => {
     const Axios = AxiosJWT(user, dispatch, logoutSuccess)
     dispatch(logoutStart())
 
-    Axios.post('http://localhost/api/v1/auth/logout', user?._id, {
+    Axios.post(`${API_HOST}/api/v1/auth/logout`, user?._id, {
         headers: {
             token: `Travel ${user?.accessToken}`
         }

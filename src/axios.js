@@ -1,5 +1,6 @@
 import axios from "axios";
 import jwt_decode from 'jwt-decode'
+import { API_HOST } from "./init";
 
 const AxiosJWT = (user, dispatch, stateSuccess) => {
     const axiosJWT = axios.create()
@@ -9,7 +10,7 @@ const AxiosJWT = (user, dispatch, stateSuccess) => {
     axiosJWT.interceptors.request.use(async (config) => {
         const jwtDecodeToken = jwt_decode(user?.accessToken)
         if (jwtDecodeToken.exp < date.getTime() / 1000) {
-            const res = await axios.post('http://localhost/api/v1/auth/refresh', id, {
+            const res = await axios.post(`${API_HOST}/api/v1/auth/refresh`, id, {
                 withCredentials: true,
             })
             const refreshUser = {

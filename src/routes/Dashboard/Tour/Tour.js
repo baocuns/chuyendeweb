@@ -39,6 +39,9 @@ const Tour = () => {
     return (
         <div>
             <div className='flex justify-end mr-8 mt-4'>
+                <div className='w-full ml-8'>
+                    <h2 className="text-2xl font-bold tracking-tight text-gray-900">Manage travel tours</h2>
+                </div>
                 <div className="inline-flex rounded-md shadow-sm mr-2" role="group">
                     <button type="button" className="py-2 px-4 text-sm font-medium text-gray-900 bg-white rounded-l-lg border border-gray-200 hover:bg-gray-100 hover:text-green-400 focus:z-10 focus:bg-green-400 focus:text-white">
                         <Ci.CiBoxList size={24} />
@@ -54,6 +57,8 @@ const Tour = () => {
                     <Ci.CiSquarePlus size={24} color={'white'} />
                 </button>
             </div>
+
+            {/* alert */}
             <div hidden={isAlert}>
                 <div class={api?.status ? "flex mx-4 my-4 bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" :
                     "flex mx-4 my-4 bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3"} role="alert">
