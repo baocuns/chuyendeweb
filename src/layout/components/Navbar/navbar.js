@@ -1,8 +1,10 @@
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Dropdown } from '../../../components'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../../../redux/apiURL'
 
 const navigation = [
     { name: 'Home', href: '/home', current: true },
@@ -16,6 +18,14 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+    const user = useSelector((state) => state.auth.login.currentUser)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        logout(user, dispatch, navigate)
+    }
+
     return (
         <Disclosure as='nav' className='bg-green-100'>
             {({ open }) => (
@@ -61,11 +71,11 @@ export default function Navbar() {
                                                 {item.name}
                                             </Link>
                                         ))}
-                                        {/* dropdown */}
-                                        <Dropdown />
                                     </div>
                                 </div>
                             </div>
+
+                            {/* notification - profiles */}
                             <div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
                                 <button
                                     type='button'
@@ -77,17 +87,31 @@ export default function Navbar() {
 
                                 {/* Profile dropdown */}
                                 <Menu as='div' className='relative ml-3'>
-                                    <div className='static'>
-                                        <Menu.Button className='flex rounded-full bg-gray-800 text-sm focus:outline-none'>
-                                            <span className='sr-only'>Open user menu</span>
-                                            <img
-                                                className='h-8 w-8 rounded-full'
-                                                src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-                                                alt=''
-                                            />
-                                            <div className='absolute h-3 w-3 bg-red-500 bottom-0 right-0 rounded-full border-solid border-2 border-white'/>
-                                        </Menu.Button>
-                                    </div>
+                                    {user ? (
+                                        <div className='static'>
+                                            <Menu.Button className='flex rounded-full bg-gray-800 text-sm focus:outline-none'>
+                                                <span className='sr-only'>Open user menu</span>
+                                                <img
+                                                    className='h-8 w-8 rounded-full'
+                                                    src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+                                                    alt=''
+                                                />
+                                                <div className='absolute h-3 w-3 bg-red-500 bottom-0 right-0 rounded-full border-solid border-2 border-white' />
+                                            </Menu.Button>
+                                        </div>
+                                    ) : (
+                                        <div className='static'>
+                                            <Menu.Button className='flex rounded-full bg-gray-800 text-sm focus:outline-none'>
+                                                <span className='sr-only'>Open user menu</span>
+                                                <img
+                                                    className='h-8 w-8 rounded-full'
+                                                    src='https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'
+                                                    alt=''
+                                                />
+                                                <div className='absolute h-3 w-3 bg-red-500 bottom-0 right-0 rounded-full border-solid border-2 border-white' />
+                                            </Menu.Button>
+                                        </div>
+                                    )}
                                     <Transition
                                         as={Fragment}
                                         enter='transition ease-out duration-100'
@@ -98,35 +122,70 @@ export default function Navbar() {
                                         leaveTo='transform opacity-0 scale-95'
                                     >
                                         <Menu.Items className='absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+                                            {/* Hi, user */}
                                             <div className='py-1'>
-                                                <Menu.Item>
-                                                    {({ active }) => (
-                                                        <a
-                                                            href='#'
-                                                            className={classNames(
-                                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                                'block px-4 py-2 text-sm'
-                                                            )}
-                                                        >
-                                                            Baocuns
-                                                        </a>
-                                                    )}
-                                                </Menu.Item>
+                                                {user ? (
+                                                    <Menu.Item>
+                                                        {({ active }) => (
+                                                            <a
+                                                                href='#'
+                                                                className={classNames(
+                                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                                    'block px-4 py-2 text-sm'
+                                                                )}
+                                                            >
+                                                                Hi, {user.username}
+                                                            </a>
+                                                        )}
+                                                    </Menu.Item>
+                                                ) : (
+                                                    <Menu.Item>
+                                                        {({ active }) => (
+                                                            <a
+                                                                href='#'
+                                                                className={classNames(
+                                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                                    'block px-4 py-2 text-sm'
+                                                                )}
+                                                            >
+                                                                Hi, User
+                                                            </a>
+                                                        )}
+                                                    </Menu.Item>
+                                                )}
                                             </div>
+                                            {/* dashboard */}
                                             <div className='py-1'>
-                                                <Menu.Item>
-                                                    {({ active }) => (
-                                                        <a
-                                                            href='#'
-                                                            className={classNames(
-                                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                                'block px-4 py-2 text-sm'
-                                                            )}
-                                                        >
-                                                            My Profile
-                                                        </a>
-                                                    )}
-                                                </Menu.Item>
+                                                {user && (
+                                                    <Menu.Item>
+                                                        {({ active }) => (
+                                                            <Link
+                                                                to={'/dashboard/tour'}
+                                                                className={classNames(
+                                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                                    'block px-4 py-2 text-sm'
+                                                                )}
+                                                            >
+                                                                Dashboard
+                                                            </Link>
+                                                        )}
+                                                    </Menu.Item>
+                                                )}
+                                                {user && (
+                                                    <Menu.Item>
+                                                        {({ active }) => (
+                                                            <a
+                                                                href='#'
+                                                                className={classNames(
+                                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                                    'block px-4 py-2 text-sm'
+                                                                )}
+                                                            >
+                                                                My Profile
+                                                            </a>
+                                                        )}
+                                                    </Menu.Item>
+                                                )}
                                                 <Menu.Item>
                                                     {({ active }) => (
                                                         <a
@@ -140,32 +199,36 @@ export default function Navbar() {
                                                         </a>
                                                     )}
                                                 </Menu.Item>
-                                                <Menu.Item>
-                                                    {({ active }) => (
-                                                        <a
-                                                            href='#'
-                                                            className={classNames(
-                                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                                'block px-4 py-2 text-sm'
-                                                            )}
-                                                        >
-                                                            Cart
-                                                        </a>
-                                                    )}
-                                                </Menu.Item>
-                                                <Menu.Item>
-                                                    {({ active }) => (
-                                                        <a
-                                                            href='#'
-                                                            className={classNames(
-                                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                                'block px-4 py-2 text-sm'
-                                                            )}
-                                                        >
-                                                            Order
-                                                        </a>
-                                                    )}
-                                                </Menu.Item>
+                                                {user && (
+                                                    <Menu.Item>
+                                                        {({ active }) => (
+                                                            <a
+                                                                href='#'
+                                                                className={classNames(
+                                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                                    'block px-4 py-2 text-sm'
+                                                                )}
+                                                            >
+                                                                Cart
+                                                            </a>
+                                                        )}
+                                                    </Menu.Item>
+                                                )}
+                                                {user && (
+                                                    <Menu.Item>
+                                                        {({ active }) => (
+                                                            <a
+                                                                href='#'
+                                                                className={classNames(
+                                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                                    'block px-4 py-2 text-sm'
+                                                                )}
+                                                            >
+                                                                Order
+                                                            </a>
+                                                        )}
+                                                    </Menu.Item>
+                                                )}
                                                 <Menu.Item>
                                                     {({ active }) => (
                                                         <a
@@ -180,38 +243,47 @@ export default function Navbar() {
                                                     )}
                                                 </Menu.Item>
                                             </div>
+                                            {/* login - logout */}
                                             <div className='py-1'>
-                                                <Menu.Item>
-                                                    {({ active }) => (
-                                                        <a
-                                                            href='#'
-                                                            className={classNames(
-                                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                                'block px-4 py-2 text-sm'
-                                                            )}
-                                                        >
-                                                            Logout
-                                                        </a>
-                                                    )}
-                                                </Menu.Item>
-                                                <Menu.Item>
-                                                    {({ active }) => (
-                                                        <a
-                                                            href='#'
-                                                            className={classNames(
-                                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                                'block px-4 py-2 text-sm'
-                                                            )}
-                                                        >
-                                                            Login
-                                                        </a>
-                                                    )}
-                                                </Menu.Item>
+                                                {user ? (
+                                                    <Menu.Item>
+                                                        {({ active }) => (
+                                                            <a
+                                                                href='#'
+                                                                className={classNames(
+                                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                                    'block px-4 py-2 text-sm'
+                                                                )}
+                                                                onClick={handleLogout}
+                                                            >
+                                                                Logout
+                                                            </a>
+                                                        )}
+                                                    </Menu.Item>
+                                                ) : (
+                                                    <Menu.Item>
+                                                        {({ active }) => (
+                                                            <Link
+                                                                to={'/login'}
+                                                                className={classNames(
+                                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                                    'block px-4 py-2 text-sm'
+                                                                )}
+                                                            >
+                                                                Login
+                                                            </Link>
+                                                        )}
+                                                    </Menu.Item>
+                                                )}
+
                                             </div>
                                         </Menu.Items>
                                     </Transition>
                                 </Menu>
                             </div>
+                            {user && (
+                                <div className='ml-2 text-bold font-medium text-green-500'>Hi, {user.username}</div>
+                            )}
                         </div>
                     </div>
 

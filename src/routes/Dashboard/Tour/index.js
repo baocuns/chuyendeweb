@@ -1,11 +1,3 @@
-import * as React from 'react'
-import { Link } from 'react-router-dom'
-
-
-const Tour = () => {
-    return (
-        <>Tour</>
-    )
-}
+import Tour from './Tour'
 
 export default Tour
