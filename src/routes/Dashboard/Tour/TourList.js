@@ -22,6 +22,8 @@ const TourList = () => {
             })
     }, [api])
 
+    console.log(products);
+
     return (
         <div className="bg-white">
             <div className="mx-auto max-w-2xl py-4 px-4 sm:py-8 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -30,8 +32,9 @@ const TourList = () => {
                         <div key={product._id} className="group relative">
                             <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
                                 <img
-                                    src={product.thumb}
+                                    src={product.images[0]}
                                     alt={product.title}
+                                    crossOrigin={''}
                                     className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                                 />
                             </div>

@@ -19,11 +19,11 @@ const AxiosJWT = (user, dispatch, stateSuccess) => {
             }
             dispatch(stateSuccess(refreshUser))
             config.headers['token'] = `Travel ${res.data.data.accessToken}`
-            config.headers['user_id'] = user?._id
+            config.headers['_id'] = user?._id
             config.withCredentials = true
         } else {
             config.headers['token'] = `Travel ${user?.accessToken}`
-            config.headers['user_id'] = user?._id
+            config.headers['_id'] = user?._id
             config.withCredentials = true
         }
         return config

@@ -32,11 +32,23 @@ export default function ModalAdd({ plus, handlePlus }) {
     const [data, setData] = useState({});
     const handleDataChange = (target) => {
         const { name, value } = target
-        setData(prev => ({
-            ...prev,
-            [name]: value
-        }))
+        if (name == 'price' || name == 'sale') {
+            const vl = value.replaceAll(',', '')
+            if (isNaN(vl)) {
+                return alert('value cannot be string!')
+            }
+            setData(prev => ({
+                ...prev,
+                [name]: vl
+            }))
+        } else {
+            setData(prev => ({
+                ...prev,
+                [name]: value
+            }))
+        }
     }
+    console.log(data);
     // schedule
     const [schedule, setSchedule] = useState([])
     const handleScheduleChange = (target, index) => {
