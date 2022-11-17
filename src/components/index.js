@@ -1,3 +1,6 @@
 import Dropdown from './Dropdown'
+import ModalAlert from './ModalAlert'
 
-export { Dropdown }
+const Components = { Dropdown, ModalAlert }
+
+export default Components

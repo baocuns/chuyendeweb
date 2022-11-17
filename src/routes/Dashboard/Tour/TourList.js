@@ -42,7 +42,7 @@ const TourList = () => {
                                 <div>
                                     <p className="mt-1 text-sm text-gray-500">{new Date(product.time_start).toLocaleDateString()}</p>
                                     <h3 className="text-sm text-gray-700">
-                                        <Link to={'#'} className='font-medium'>
+                                        <Link to={product.slug} className='font-medium'>
                                             <span aria-hidden="true" className="absolute inset-0" />
                                             {product.title}
                                         </Link>
