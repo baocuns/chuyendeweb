@@ -22,6 +22,8 @@ const TourList = () => {
             })
     }, [api])
 
+    console.log(products);
+
     return (
         <div className="bg-white">
             <div className="mx-auto max-w-2xl py-4 px-4 sm:py-8 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -30,7 +32,7 @@ const TourList = () => {
                         <div key={product._id} className="group relative">
                             <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
                                 <img
-                                    src={product.thumb}
+                                    src={product.images[0]}
                                     alt={product.title}
                                     className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                                 />
@@ -39,7 +41,7 @@ const TourList = () => {
                                 <div>
                                     <p className="mt-1 text-sm text-gray-500">{new Date(product.time_start).toLocaleDateString()}</p>
                                     <h3 className="text-sm text-gray-700">
-                                        <Link to={'#'} className='font-medium'>
+                                        <Link to={product.slug} className='font-medium'>
                                             <span aria-hidden="true" className="absolute inset-0" />
                                             {product.title}
                                         </Link>
