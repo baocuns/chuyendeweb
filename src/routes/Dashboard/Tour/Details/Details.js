@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { StarIcon } from '@heroicons/react/20/solid'
 import { RadioGroup } from '@headlessui/react'
 import TextareaAutosize from 'react-textarea-autosize';
@@ -75,13 +75,14 @@ function classNames(...classes) {
 const Details = () => {
     // redux
     const dispatch = useDispatch()
+    const api = useSelector((state) => state.api.api)
     const user = useSelector((state) => state.auth.login.currentUser)
+    const navigate = useNavigate()
 
     const { slug } = useParams()
     const [selectedColor, setSelectedColor] = useState(product.colors[0])
     const [selectedSize, setSelectedSize] = useState(product.sizes[2])
     const [openAlert, setOpenAlert] = useState(false)
-
     const handleOpenAlert = () => {
         setOpenAlert(!openAlert)
     }
@@ -129,6 +130,7 @@ const Details = () => {
         setSchedule(schedule.filter((el, idx) => idx !== index))
     }
 
+    // handle update
     const handleSubmit = () => {
         let formData = new FormData();
         formData.append('title', tour.title)
@@ -155,19 +157,26 @@ const Details = () => {
             .then(res => {
                 const { data, ...rest } = res.data
                 dispatch(callApiSuccess(rest))
+                navigate('/dashboard/tour')
             })
             .catch(err => {
                 const { data } = err.response
                 dispatch(callApiFailed(data))
+                navigate('/dashboard/tour')
             })
     }
 
-
+    // load tour
     useEffect(() => {
         axios.get(`${API_HOST}/api/v1/tour/show/details/${slug}`)
             .then(res => {
                 setTour(res.data.data[0])
                 setSchedule(res.data.data[0].schedule)
+            })
+            .catch(err => {
+                const { data } = err.response
+                dispatch(callApiFailed(data))
+                navigate('/dashboard/tour')
             })
     }, [])
 
@@ -183,8 +192,33 @@ const Details = () => {
             })
     }, [])
 
+    // delete tour
+    const [isDelete, setIsDelete] = useState(false)
+    const handleAlertDelete = () => {
+        setIsDelete(!isDelete)
+    }
+    const handleSubmitDelete = () => {
+        const Axios = AxiosJWT(user, dispatch, loginSuccess)
+        dispatch(callApiStart())
+        Axios.delete(`${API_HOST}/api/v1/service/delete/${tour._id}`)
+            .then(res => {
+                const { data, ...rest } = res.data
+                dispatch(callApiSuccess(rest))
+                navigate('/dashboard/tour')
+            })
+            .catch(err => {
+                const { data } = err.response
+                dispatch(callApiFailed(data))
+                navigate('/dashboard/tour')
+            })
+    }
+
     return (
         <div className="bg-white">
+            {/* loader */}
+            {api.isFetching && (
+                <Components.Loader />
+            )}
             <div className="pt-6">
                 {/* Image gallery */}
                 <div className="relative w-full flex snap-x gap-6 overflow-x-auto pb-14">
@@ -235,137 +269,6 @@ const Details = () => {
                             />
                             <div className="text-3xl text-gray-900 tracking-tight mr-2">vnđ</div>
                         </div>
-
-                        {/* Reviews */}
-                        <div className="mt-6">
-                            <h3 className="sr-only">Reviews</h3>
-                            <div className="flex items-center">
-                                <div className="flex items-center">
-                                    {[0, 1, 2, 3, 4].map((rating) => (
-                                        <StarIcon
-                                            key={rating}
-                                            className={classNames(
-                                                reviews.average > rating ? 'text-gray-900' : 'text-gray-200',
-                                                'h-5 w-5 flex-shrink-0'
-                                            )}
-                                            aria-hidden="true"
-                                        />
-                                    ))}
-                                </div>
-                                <p className="sr-only">{reviews.average} out of 5 stars</p>
-                                <a href={reviews.href} className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                                    {reviews.totalCount} reviews
-                                </a>
-                            </div>
-                        </div>
-
-                        <form className="mt-10">
-                            {/* Colors */}
-                            <div>
-                                <h3 className="text-sm font-medium text-gray-900">Color</h3>
-
-                                <RadioGroup value={selectedColor} onChange={setSelectedColor} className="mt-4">
-                                    <RadioGroup.Label className="sr-only"> Choose a color </RadioGroup.Label>
-                                    <div className="flex items-center space-x-3">
-                                        {product.colors.map((color) => (
-                                            <RadioGroup.Option
-                                                key={color.name}
-                                                value={color}
-                                                className={({ active, checked }) =>
-                                                    classNames(
-                                                        color.selectedClass,
-                                                        active && checked ? 'ring ring-offset-1' : '',
-                                                        !active && checked ? 'ring-2' : '',
-                                                        '-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none'
-                                                    )
-                                                }
-                                            >
-                                                <RadioGroup.Label as="span" className="sr-only">
-                                                    {' '}
-                                                    {color.name}{' '}
-                                                </RadioGroup.Label>
-                                                <span
-                                                    aria-hidden="true"
-                                                    className={classNames(
-                                                        color.class,
-                                                        'h-8 w-8 border border-black border-opacity-10 rounded-full'
-                                                    )}
-                                                />
-                                            </RadioGroup.Option>
-                                        ))}
-                                    </div>
-                                </RadioGroup>
-                            </div>
-
-                            {/* Sizes */}
-                            <div className="mt-10">
-                                <div className="flex items-center justify-between">
-                                    <h3 className="text-sm font-medium text-gray-900">Size</h3>
-                                    <a href="#" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                                        Size guide
-                                    </a>
-                                </div>
-
-                                <RadioGroup value={selectedSize} onChange={setSelectedSize} className="mt-4">
-                                    <RadioGroup.Label className="sr-only"> Choose a size </RadioGroup.Label>
-                                    <div className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
-                                        {product.sizes.map((size) => (
-                                            <RadioGroup.Option
-                                                key={size.name}
-                                                value={size}
-                                                disabled={!size.inStock}
-                                                className={({ active }) =>
-                                                    classNames(
-                                                        size.inStock
-                                                            ? 'bg-white shadow-sm text-gray-900 cursor-pointer'
-                                                            : 'bg-gray-50 text-gray-200 cursor-not-allowed',
-                                                        active ? 'ring-2 ring-indigo-500' : '',
-                                                        'group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6'
-                                                    )
-                                                }
-                                            >
-                                                {({ active, checked }) => (
-                                                    <>
-                                                        <RadioGroup.Label as="span">{size.name}</RadioGroup.Label>
-                                                        {size.inStock ? (
-                                                            <span
-                                                                className={classNames(
-                                                                    active ? 'border' : 'border-2',
-                                                                    checked ? 'border-indigo-500' : 'border-transparent',
-                                                                    'pointer-events-none absolute -inset-px rounded-md'
-                                                                )}
-                                                                aria-hidden="true"
-                                                            />
-                                                        ) : (
-                                                            <span
-                                                                aria-hidden="true"
-                                                                className="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-200"
-                                                            >
-                                                                <svg
-                                                                    className="absolute inset-0 h-full w-full stroke-2 text-gray-200"
-                                                                    viewBox="0 0 100 100"
-                                                                    preserveAspectRatio="none"
-                                                                    stroke="currentColor"
-                                                                >
-                                                                    <line x1={0} y1={100} x2={100} y2={0} vectorEffect="non-scaling-stroke" />
-                                                                </svg>
-                                                            </span>
-                                                        )}
-                                                    </>
-                                                )}
-                                            </RadioGroup.Option>
-                                        ))}
-                                    </div>
-                                </RadioGroup>
-                            </div>
-
-                            <button
-                                type="submit"
-                                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                            >
-                                Add to bag
-                            </button>
-                        </form>
                     </div>
 
                     <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pt-6 lg:pb-16 lg:pr-8">
@@ -515,18 +418,37 @@ const Details = () => {
                 <div className="p-4 mb-16 flex justify-start">
                     <button className="bg-green-500 p-2 rounded text-white hover:cursor-point hover:bg-green-600"
                         onClick={handleOpenAlert}
-                    >Save Change</button>
+                    >
+                        Save Change
+                    </button>
+                    <button className="bg-red-500 p-2 rounded text-white hover:cursor-point hover:bg-red-600 ml-4"
+                        onClick={handleAlertDelete}
+                    >
+                        Delete Tour
+                    </button>
                 </div>
             </div>
             {/* modal alert */}
-            <Components.ModalAlert
-                Open={openAlert}
-                handleOpen={handleOpenAlert}
-                Opstion={{
-                    title: 'Would you like to receive service updates?',
-                    handleCallBack: handleSubmit,
-                }}
-            />
+            {openAlert && (
+                <Components.ModalAlert
+                    Open={openAlert}
+                    handleOpen={handleOpenAlert}
+                    Opstion={{
+                        title: 'Would you like to receive service updates?',
+                        handleCallBack: handleSubmit,
+                    }}
+                />
+            )}
+            {isDelete && (
+                <Components.ModalAlert
+                    Open={isDelete}
+                    handleOpen={handleAlertDelete}
+                    Opstion={{
+                        title: 'Would you like to receive service deleted?',
+                        handleCallBack: handleSubmitDelete,
+                    }}
+                />
+            )}
         </div>
     )
 }
