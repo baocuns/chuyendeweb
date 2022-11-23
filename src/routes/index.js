@@ -14,6 +14,7 @@ import Dashboards from "./Dashboard";
 import Login from "./Pages/Login";
 import Tour from "./Pages/Tour";
 import Home from "./Pages/Home";
+import Checkout from "./Pages/Checkout/Checkout";
 
 // --------404
 import Err from "./Pages/404";
@@ -34,6 +35,8 @@ export const RoutedContent = () => {
       <Route path="/tour" element={<Tour />} />
       <Route path="/home" element={<Home />} />
       <Route path="/detail-tour" element={<DetailTour />} />
+      <Route path="/checkout" element={<Checkout />} />
+
 
       {/* 404 */}
       <Route path="*" element={<Err />} />

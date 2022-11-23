@@ -34,7 +34,6 @@ const TourList = () => {
                                 <img
                                     src={product.images[0]}
                                     alt={product.title}
-                                    crossOrigin={''}
                                     className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                                 />
                             </div>
