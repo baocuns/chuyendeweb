@@ -17,6 +17,7 @@ import Home from "./Pages/Home";
 
 // --------404
 import Err from "./Pages/404";
+import DetailTour from "./Pages/DetailTour/DetailTour";
 
 export const RoutedContent = () => {
   return (
@@ -32,6 +33,7 @@ export const RoutedContent = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/tour" element={<Tour />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/detail-tour" element={<DetailTour />} />
 
       {/* 404 */}
       <Route path="*" element={<Err />} />
