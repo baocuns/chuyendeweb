@@ -4,6 +4,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../../../redux/apiURL'
+import Cart from '../Cart'
 
 const navigation = [
     { name: 'Home', href: '/home', current: true },
@@ -21,6 +22,11 @@ export default function Navbar() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    const [isCart, setIsCart] = useState(false)
+    const handleCart = () => {
+        setIsCart(!isCart)
+    }
+
     const handleLogout = () => {
         logout(user, dispatch, navigate)
     }
@@ -29,6 +35,11 @@ export default function Navbar() {
         <Disclosure as='nav' className='bg-green-100'>
             {({ open }) => (
                 <>
+                    {/* check out */}
+                    <Cart
+                        Open={isCart}
+                        handleOpen={handleCart}
+                    />
                     <div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
                         <div className='relative flex h-16 items-center justify-between'>
                             <div className='absolute inset-y-0 left-0 flex items-center sm:hidden'>
@@ -201,30 +212,31 @@ export default function Navbar() {
                                                 {user && (
                                                     <Menu.Item>
                                                         {({ active }) => (
-                                                            <a
-                                                                href='#'
+                                                            <button
+                                                                type='button'
                                                                 className={classNames(
                                                                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                                    'block px-4 py-2 text-sm'
+                                                                    'block px-4 py-2 text-sm w-full flex justify-start'
                                                                 )}
+                                                                onClick={handleCart}
                                                             >
                                                                 Cart
-                                                            </a>
+                                                            </button>
                                                         )}
                                                     </Menu.Item>
                                                 )}
                                                 {user && (
                                                     <Menu.Item>
                                                         {({ active }) => (
-                                                            <a
-                                                                href='#'
+                                                            <Link
+                                                                to={'/orders'}
                                                                 className={classNames(
                                                                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                                                     'block px-4 py-2 text-sm'
                                                                 )}
                                                             >
-                                                                Order
-                                                            </a>
+                                                                Orders
+                                                            </Link>
                                                         )}
                                                     </Menu.Item>
                                                 )}
