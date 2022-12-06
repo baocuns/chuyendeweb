@@ -21,6 +21,7 @@ import Err from "./Pages/404";
 import DetailTour from "./Pages/DetailTour/DetailTour";
 import Order from "./Pages/Order/Order";
 import Orders from "./Pages/Order/Orders.";
+import Xanpay from "./Pages/Checkout/Xanpay/Xanpay";
 
 export const RoutedContent = () => {
   return (
@@ -41,6 +42,7 @@ export const RoutedContent = () => {
       <Route path="/checkout/:oid" element={<Checkout />} />
       <Route path="/order/:oid" element={<Order />} />
       <Route path="/orders" element={<Orders />} />
+      <Route path="/xanpay" element={<Xanpay />} />
 
       {/* 404 */}
       <Route path="*" element={<Err />} />
