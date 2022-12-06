@@ -44,7 +44,7 @@ export default function Cart({Open, handleOpen}) {
         // total
         var _total = 0
         carts && carts.tours.map(tour => {
-            if (it.some(e => e === tour.slug)) {
+            if (it.some(e => e === tour._id)) {
                 _total += tour.sale
             }
         })
@@ -72,6 +72,7 @@ export default function Cart({Open, handleOpen}) {
             })
     }
 
+    // show carts
     useEffect(() => {
         if (user) {
             dispatch(callApiStart())
@@ -156,7 +157,7 @@ export default function Cart({Open, handleOpen}) {
                                                                     <div className='mr-3'>
                                                                         <input
                                                                             type={'checkbox'}
-                                                                            value={tour.slug}
+                                                                            value={tour._id}
                                                                             onChange={(e) => handleChangeItems(e.target)}
                                                                             className='w-4 h-4'
                                                                         />

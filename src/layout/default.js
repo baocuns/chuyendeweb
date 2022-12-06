@@ -1,28 +1,19 @@
 import { useLocation, useNavigate } from "react-router-dom"
 import { Navbar, Footer, Dashhboards, DNavbar } from "./components"
 import { useSelector } from 'react-redux'
-import { useEffect } from "react"
-import { API_HOST } from "../init"
-// import React, { useState, useEffect, useRef } from "react";
-// import socketIOClient from "socket.io-client";
+import { useEffect, useRef } from "react"
+import socket from "../socket.io/socket.io"
 
 
 const AppLayout = (props) => {
-
     const { children } = props
     const navigate = useNavigate()
     const location = useLocation()
     const user = useSelector((state) => state.auth.login.currentUser)
+    // const socket = SocketIo()
 
     const keyRoutes = location.pathname.split('/')
     const isDashboard = keyRoutes.includes('dashboard')
-
-    // const socketRef = useRef();
-
-    // useEffect(() => {
-    //     socketRef.current = socketIOClient.connect('API_HOST/')
-    //     console.log('OK');
-    // }, [])
 
     useEffect(() => {
         if (isDashboard) {
@@ -33,6 +24,12 @@ const AppLayout = (props) => {
             }
         }
     }, [])
+
+    useEffect(() => {
+        socket.on('on-change', (data) => {
+            console.log('on-change: ', data);
+        })
+    })
 
 
     if (!isDashboard) {

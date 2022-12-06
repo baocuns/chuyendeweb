@@ -6,7 +6,7 @@ import { loginSuccess } from '../../../redux/authSlice';
 import Components from '../../../components';
 import { useEffect } from 'react';
 import { callApiClear, callApiFailed, callApiStart, callApiSuccess } from '../../../redux/apiSlice';
-import { redirect, useNavigate, useParams } from 'react-router-dom';
+import { Link, redirect, useNavigate, useParams } from 'react-router-dom';
 import { API_HOST } from '../../../init';
 
 const Checkout = () => {
@@ -160,7 +160,17 @@ const Checkout = () => {
                                     />
                                     <p className="p-2">Payment by VNPAY</p>
                                 </label>
-
+                            </div>
+                            {/* xanpay */}
+                            <div className="my-2">
+                                <Link to='/xanpay'>
+                                    <label htmlFor="check-xanpay" className="flex justify-center items-center hover:bg-gray-300 p-2 bg-gray-100 rounded cursor-pointer">
+                                        <img src="https://payrate42.com/wp-content/uploads/job-manager-uploads/main_image/2022/09/XanPay-Logo-600wide.png"
+                                            className="object-cover w-24"
+                                        />
+                                        <p className="p-2">Payment by Xanpay</p>
+                                    </label>
+                                </Link>
                             </div>
                         </div>
                         <div className="mt-12">

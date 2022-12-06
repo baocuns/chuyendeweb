@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import socket from '../../../socket.io'
 
 const TourList = () => {
     const user = useSelector((state) => state.auth.login.currentUser)
@@ -13,6 +14,16 @@ const TourList = () => {
     const [products, setProducts] = useState()
 
     useEffect(() => {
+        handleGetService()
+    }, [api])
+
+    useEffect(() => {
+        socket.on('on-change', data => {
+            data === 'tour' && handleGetService()
+        })
+    }, [])
+
+    const handleGetService = () => {
         axios.get(`${API_HOST}/api/v1/service/${user?.username}`)
             .then(res => {
                 setProducts(res.data.data)
@@ -20,9 +31,7 @@ const TourList = () => {
             .catch(err => {
                 console.log(err);
             })
-    }, [api])
-
-    console.log(products);
+    }
 
     return (
         <div className="bg-white">
