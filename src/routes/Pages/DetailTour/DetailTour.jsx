@@ -5,6 +5,7 @@ import { ADD_TO_CART_ROUTE, DETAIL_TOUR_ROUTE } from '../../../init'
 import { formatVND } from '../../../utils/function'
 import { useDispatch, useSelector } from 'react-redux'
 import { callApiFailed, callApiStart, callApiSuccess } from '../../../redux/apiSlice'
+import { useNavigate } from 'react-router-dom'
 
 const reviews = { href: '#', average: 4, totalCount: 117 }
 
@@ -15,12 +16,13 @@ function classNames(...classes) {
 
 // props: nhận slug tour
 export default function DetailTour({ props }) {
-    const _id = "6368d67dea1b4f6441cdce3a";
+    const _id = "63737636281284d80f3915d9";
     const user = useSelector((state) => state.auth.login.currentUser)
     // redux
     const api = useSelector((state) => state.api.api.currentApi)
     const dispatch = useDispatch()
     const [tour, setTour] = useState()
+    const navigate = useNavigate();
     const fetchData = async () => {
         try {
             const res = await axios.get(`${DETAIL_TOUR_ROUTE}/khu-di-tich-lich-su-vam-nhut-tao-bao-dep-trai-1671176173013`)
@@ -46,12 +48,14 @@ export default function DetailTour({ props }) {
             .then(res => {
                 const { data, ...rest } = res.data
                 dispatch(callApiSuccess(rest))
+                alert('Tour added!!!')
                 console.log(res.data);
                 api && alert(api.msg)
             })
             .catch(err => {
                 const { data } = err.response
                 dispatch(callApiFailed(data))
+                alert('Tour exist!!!')
                 api && alert(api.msg)
             })
     }
@@ -89,7 +93,7 @@ export default function DetailTour({ props }) {
                                 ))}
                             </div>
                             <p className="sr-only">{reviews.average} out of 5 stars</p>
-                            <a href={reviews.href} className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                            <a onClick={() => navigate('/rating')} href={reviews.href} className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
                                 {reviews.totalCount} reviews
                             </a>
                         </div>

@@ -10,9 +10,10 @@ import { loginSuccess } from '../../../redux/authSlice'
 import Components from '../../../components'
 import { API_HOST } from '../../../init'
 import * as Hi from "react-icons/hi";
+import socket from '../../../socket.io'
 
 
-export default function Cart({Open, handleOpen}) {
+export default function Cart({ Open, handleOpen }) {
     // redux
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -52,6 +53,41 @@ export default function Cart({Open, handleOpen}) {
         setItems(it)
         setTotal(_total)
     }
+    const removeToCart = async (_id) => {
+        dispatch(callApiStart())
+        const Axios = AxiosJWT(user, dispatch, loginSuccess)
+        Axios.delete('https://api.travels.games/api/v1/cart/delete/' + _id)
+            .then(res => {
+                dispatch(callApiSuccess())
+                loadingCart();
+            })
+            .catch(err => {
+                console.log(err);
+                const { data } = err?.response
+                dispatch(callApiFailed(data))
+            })
+    }
+    const loadingCart = () => {
+        if (user) {
+            dispatch(callApiStart())
+            const Axios = AxiosJWT(user, dispatch, loginSuccess)
+            Axios.post(`${API_HOST}/api/v1/cart/show`)
+                .then(res => {
+                    dispatch(callApiSuccess())
+                    setCarts(res.data.data[0])
+                    var _total = 0
+                    res.data.data[0].tours.map(e => {
+                        _total += e.price
+                    })
+                    setTotal(_total)
+                })
+                .catch(err => {
+                    console.log(err);
+                    const { data } = err?.response
+                    dispatch(callApiFailed(data))
+                })
+        }
+    }
 
     const handleCreateOrder = () => {
         const data = {
@@ -72,27 +108,14 @@ export default function Cart({Open, handleOpen}) {
             })
     }
 
+    useEffect(() => {
+        socket.on('on-change', data => {
+            data === 'cart' && loadingCart()
+        })
+    }, [])
     // show carts
     useEffect(() => {
-        if (user) {
-            dispatch(callApiStart())
-            const Axios = AxiosJWT(user, dispatch, loginSuccess)
-            Axios.post(`${API_HOST}/api/v1/cart/show`)
-                .then(res => {
-                    dispatch(callApiSuccess())
-                    setCarts(res.data.data[0])
-                    var _total = 0
-                    res.data.data[0].tours.map(e => {
-                        _total += e.price
-                    })
-                    setTotal(_total)
-                })
-                .catch(err => {
-                    console.log(err);
-                    const { data } = err?.response
-                    dispatch(callApiFailed(data))
-                })
-        }
+        loadingCart();
     }, [user])
 
     // loader
@@ -201,6 +224,7 @@ export default function Cart({Open, handleOpen}) {
                                                                         <p className="text-gray-500"></p>
                                                                         <div className="flex">
                                                                             <button
+                                                                                onClick={() => { removeToCart(tour._id) }}
                                                                                 type="button"
                                                                                 className="font-medium text-indigo-600 hover:text-indigo-500"
                                                                             >
