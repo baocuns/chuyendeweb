@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import axios from 'axios'
-import { DETAIL_TOUR_ROUTE } from '../../../init'
+import { ADD_TO_CART_ROUTE, DETAIL_TOUR_ROUTE } from '../../../init'
 import { formatVND } from '../../../utils/function'
+import { useDispatch, useSelector } from 'react-redux'
+import { callApiFailed, callApiStart, callApiSuccess } from '../../../redux/apiSlice'
 
 const reviews = { href: '#', average: 4, totalCount: 117 }
 
@@ -10,18 +12,50 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function DetailTour() {
+
+// props: nhận slug tour
+export default function DetailTour({ props }) {
+    const _id = "6368d67dea1b4f6441cdce3a";
+    const user = useSelector((state) => state.auth.login.currentUser)
+    // redux
+    const api = useSelector((state) => state.api.api.currentApi)
+    const dispatch = useDispatch()
     const [tour, setTour] = useState()
     const fetchData = async () => {
         try {
-            const res = await axios.get(`${DETAIL_TOUR_ROUTE}/dong-bac-ha-giang-lung-cu-dong-van-ma-pi-leng-meo-vac-cao-bang-thac-ban-gioc-ho-guom-1669617149349`)
-            console.log(res.data.data[0]);
+            const res = await axios.get(`${DETAIL_TOUR_ROUTE}/khu-di-tich-lich-su-vam-nhut-tao-bao-dep-trai-1671176173013`)
             setTour(res.data.data[0])
-            console.log(res.data.data[0].images);
         } catch (error) {
             console.log(error);
         }
     }
+    const handleAddToCart = async (_id) => {
+        dispatch(callApiStart)
+        axios.post('https://api.travels.games/api/v1/cart/store/' + _id, {
+            a: 1
+        },
+            {
+                headers: {
+                    "Accept": "application/json",
+                    "Content-type": "application/json",
+                    "token": `Travel ${user.accessToken}`,
+                    "_id": user._id
+                }
+            }
+        )
+            .then(res => {
+                const { data, ...rest } = res.data
+                dispatch(callApiSuccess(rest))
+                console.log(res.data);
+                api && alert(api.msg)
+            })
+            .catch(err => {
+                const { data } = err.response
+                dispatch(callApiFailed(data))
+                api && alert(api.msg)
+            })
+    }
+
     useEffect(() => {
         fetchData();
     }, [])
@@ -60,7 +94,7 @@ export default function DetailTour() {
                             </a>
                         </div>
                     </div>
-                    <button class="bg-blue-500 m-3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <button onClick={() => handleAddToCart(_id)} class="bg-blue-500 m-3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Add to Cart
                     </button>
 
