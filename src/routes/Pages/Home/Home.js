@@ -32,7 +32,6 @@ const slides = [
 ];
 
 const callouts = [
-
   {
     name: "Desk and Office",
     description: "Work from home accessories",
@@ -245,6 +244,17 @@ function Home() {
       });
   };
 
+  const hardleOnchaneArea = (SlugArea) => {
+    axios
+      .get(`https://api.travels.games/api/v1/tour/show/all/area/${SlugArea}`)
+      .then((res) => {
+        console.log(res.data.data[0]);
+        setCartList(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
   const [homeList, setHomeList] = useState();
   useEffect(() => {
     axios
@@ -258,7 +268,9 @@ function Home() {
       });
   }, []);
 
-  const [allAreas, setAllAreas] = useState("");
+  // ten mien
+  const [allAreas, setAllAreas] = useState("region");
+
   //     useEffect(() => {
   //       axios
   //         .get(
@@ -309,9 +321,9 @@ function Home() {
           <h2 className="text-2xl font-bold text-gray-900">Collections</h2>
           {homeList &&
             homeList.map((tour) => (
-              <div className="flex flex-row mt-6 space-y-12   lg:gap-x-6 lg:space-y-0 gap-x-8 gap-y-4 ">
+              <div className="mt-6 space-y-12 lg:gap-x-6 lg:space-y-0 gap-x-8 gap-y-4 ">
                 {/* {callCards.map((callCard) => ( */}
-                <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+                <div class="max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
                   <a href="#">
                     <img
                       class="rounded-t-lg"
@@ -403,7 +415,6 @@ function Home() {
                       >
                         Add to cart
                       </a>
-
                     </div>
                   </div>
                 </div>
@@ -411,47 +422,22 @@ function Home() {
               </div>
             ))}
         </div>
-        <div>
-          <Menu as="div" className="relative inline-block text-left">
-            <div>
-              <Menu.Button className="inline-flex md:flex-row w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
-                Options
-                <ChevronDownIcon
-                  className="-mr-1 ml-2 h-5 w-5"
-                  aria-hidden="true"
-                />
-              </Menu.Button>
-            </div>
-            <Transition
-              as={Fragment}
-              enter="transition ease-out duration-100"
-              enterFrom="transform opacity-0 scale-95"
-              enterTo="transform opacity-100 scale-100"
-              leave="transition ease-in duration-75"
-              leaveFrom="transform opacity-100 scale-100"
-              leaveTo="transform opacity-0 scale-95"
-            >
-              <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div className="py-1">
-                  {areas &&
-                    areas.map((area) => (
-                      <Menu.Item>
-                        <a href="#">{area.region}</a>
-                      </Menu.Item>
-                    ))}
-                </div>
-              </Menu.Items>
-            </Transition>
-          </Menu>
-        </div>
+        <form>
+          <select onChange={(e) => hardleOnchaneArea(e.target.value)}>
+            {areas &&
+              areas.map((area) => (
+                <option value={area.slug}>{area.title}</option>
+              ))}
+          </select>
+        </form>
         <div class="grid gap-x-8 gap-y-4 grid-rows-1 py-4">
           {cartList &&
             cartList.map((card) => (
               <div class="flex flex-row md:flex-row rounded-lg bg-white shadow-lg">
                 <div>
                   <img
-                    class=" w-full h-96 md:h-auto object-cover md:w-48 rounded-t-lg md:rounded-none md:rounded-l-lg"
-                    src="https://mdbootstrap.com/wp-content/uploads/2020/06/vertical.jpg"
+                    class="max-h-sm w-full h-96 md:h-auto object-cover md:w-48 rounded-t-lg md:rounded-none md:rounded-l-lg"
+                    src={card.images[0]}
                     alt=""
                   />
                 </div>
