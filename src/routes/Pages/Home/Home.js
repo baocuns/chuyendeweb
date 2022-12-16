@@ -32,6 +32,7 @@ const slides = [
 ];
 
 const callouts = [
+
   {
     name: "Desk and Office",
     description: "Work from home accessories",
@@ -402,6 +403,7 @@ function Home() {
                       >
                         Add to cart
                       </a>
+
                     </div>
                   </div>
                 </div>

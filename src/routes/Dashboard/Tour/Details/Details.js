@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../../../../redux/authSlice";
 import { callApiFailed, callApiStart, callApiSuccess } from "../../../../redux/apiSlice";
 import { API_HOST } from "../../../../init";
+import moment from 'moment'
 
 const product = {
     name: 'Basic Tee 6-Pack',
@@ -297,7 +298,7 @@ const Details = () => {
                                             type="date"
                                             id="time_start"
                                             autoComplete="time_start"
-                                            value={`${new Date(tour?.time_start).getFullYear()}-${new Date(tour?.time_start).getMonth() + 1}-${new Date(tour?.time_start).getDate()}`}
+                                            value={moment(tour?.time_start).format('yyyy-MM-DD')}
                                             onChange={(e) => handleChangeTour(e.target)}
                                             className="px-3 focus:outline-0 sm:text-sm text-black font-bold"
                                         />
@@ -310,7 +311,7 @@ const Details = () => {
                                             type="date"
                                             id="time_end"
                                             autoComplete="time_end"
-                                            value={`${new Date(tour?.time_end).getFullYear()}-${new Date(tour?.time_end).getMonth() + 1}-${new Date(tour?.time_end).getDate()}`}
+                                            value={moment(tour?.time_end).format('yyyy-MM-DD')}
                                             onChange={(e) => handleChangeTour(e.target)}
                                             className="px-3 focus:outline-0 sm:text-sm text-black font-bold"
                                         />
