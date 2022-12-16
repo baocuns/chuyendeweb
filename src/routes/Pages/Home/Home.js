@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Slider from "@mui/material";
@@ -191,6 +191,8 @@ const sliderStyles = {
 };
 function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const navigate = useNavigate();
+
   const goToPrevious = () => {
     const isFirstSlide = currentIndex === 0;
     const newIndex = isFirstSlide ? slides.length - 1 : currentIndex - 1;
@@ -324,7 +326,7 @@ function Home() {
               <div className="mt-6 space-y-12 lg:gap-x-6 lg:space-y-0 gap-x-8 gap-y-4 ">
                 {/* {callCards.map((callCard) => ( */}
                 <div class="max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                  <a href="#">
+                  <a onClick={() => navigate('/detail-tour', { state: { tourdata: tour } })}>
                     <img
                       class="rounded-t-lg"
                       // src={callCard.imageTour}
@@ -333,7 +335,7 @@ function Home() {
                     />
                   </a>
                   <div class="px-5 pb-5">
-                    <a href="#">
+                    <a onClick={() => navigate('/detail-tour', { state: { tourdata: tour } })}>
                       <p class="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-400">
                         {/* {moment(homeList.time_start).format("DD-MM-yyyy")} */}
                         {moment(tour.time_start).format("DD/MM/yyyy")} -{" "}
