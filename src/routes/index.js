@@ -14,7 +14,11 @@ import Dashboards from "./Dashboard";
 import Login from "./Pages/Login";
 import Tour from "./Pages/Tour";
 import Home from "./Pages/Home";
+
+import Slider from "./Pages/Slider";
+
 import Checkout from "./Pages/Checkout/Checkout";
+
 
 // --------404
 import Err from "./Pages/404";
@@ -37,12 +41,16 @@ export const RoutedContent = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/tour" element={<Tour />} />
       <Route path="/home" element={<Home />} />
+
+      {/* <Route path="/Slider" element={<Slider />} /> */}
+
       <Route path="/detail-tour" element={<DetailTour />} />
       {/* cart order */}
       <Route path="/checkout/:oid" element={<Checkout />} />
       <Route path="/order/:oid" element={<Order />} />
       <Route path="/orders" element={<Orders />} />
       <Route path="/xanpay" element={<Xanpay />} />
+
 
       {/* 404 */}
       <Route path="*" element={<Err />} />
