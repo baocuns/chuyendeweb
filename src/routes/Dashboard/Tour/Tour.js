@@ -40,7 +40,7 @@ const Tour = () => {
         <div>
             <div className='flex justify-end mr-8 mt-4'>
                 <div className='w-full ml-8'>
-                    <h2 className="text-2xl font-bold tracking-tight text-gray-900">Manage travel tours</h2>
+                    <h2 className="sm:text-sm md:text-2xl font-bold tracking-tight text-gray-900">Manage travel tours</h2>
                 </div>
                 <div className="inline-flex rounded-md shadow-sm mr-2" role="group">
                     <button type="button" className="py-2 px-4 text-sm font-medium text-gray-900 bg-white rounded-l-lg border border-gray-200 hover:bg-gray-100 hover:text-green-400 focus:z-10 focus:bg-green-400 focus:text-white">

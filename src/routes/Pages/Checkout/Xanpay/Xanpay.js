@@ -3,7 +3,7 @@ import { useEffect } from "react"
 
 
 const Xanpay = () => {
-    const xanpay = `<div class="h-96"><script src="https://cdn.xanpay.com/widget/1.widget.js"></script>
+  const xanpay = `<div class="h-96"><script src="https://cdn.xanpay.com/widget/1.widget.js"></script>
     <script>
       (function (w, d, s, o, f, js, fjs) {
         w[o] = w[o] || function () { (w[o].q = w[o].q || []).push(arguments) };
@@ -25,21 +25,21 @@ const Xanpay = () => {
     </script>
     <div id="xanpay-widget" class="flex justify-center h-96"></div></div>`
 
-    var htmlobject = document.createElement('div')
-    htmlobject.innerHTML = xanpay
+  var htmlobject = document.createElement('div')
+  htmlobject.innerHTML = xanpay
 
-    // document.querySelector('#root').appendChild(htmlobject)
-    const ref = useRef()
+  // document.querySelector('#root').appendChild(htmlobject)
+  const ref = useRef()
 
-    useEffect(() => {
-        ref.current.innerHTML = xanpay
-    }, [])
+  useEffect(() => {
+    ref.current.innerHTML = xanpay
+  }, [])
 
-    return (
+  return (
         <div ref={ref}>
 
         </div>
-    )
+  )
 }
 
 export default Xanpay

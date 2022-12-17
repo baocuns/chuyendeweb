@@ -32,6 +32,7 @@ export const RoutedContent = () => {
       <Route path="/dashboard" element={<Dashboards.Dashboard />} />
       <Route path="/dashboard/tour" element={<Dashboards.Tour />} />
       <Route path="/dashboard/tour/:slug" element={<Dashboards.Details />} />
+      <Route path="/dashboard/orders" element={<Dashboards.Orders />} />
 
       {/* pages */}
       <Route path="/login" element={<Login />} />

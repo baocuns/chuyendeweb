@@ -1,0 +1,13 @@
+.dropdown-order {
+    animation: 0.5s dropdown forwards;
+}
+
+@keyframes dropdown {
+    from {
+        height: 0;
+    }
+
+    to {
+        height: 100px;
+    }
+}

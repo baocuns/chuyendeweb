@@ -44,12 +44,12 @@ const AppLayout = (props) => {
     else {
         return (
             <div className="flex flex-row">
-                <div className="basis-1/6">
+                <div className="basis-1/6 hidden sm:block">
                     <div className="fixed h-screen w-1/6 border-r border-gray-300 border-solid">
                         <Dashhboards />
                     </div>
                 </div>
-                <div className="basis-5/6">
+                <div className="basis-5/6 sm:w-full">
                     <DNavbar />
                     <div className="h-12"></div>
                     {children}

@@ -11,19 +11,9 @@ const TourList = () => {
     const user = useSelector((state) => state.auth.login.currentUser)
     const api = useSelector((state) => state.api.api.currentApi)
 
-    const [products, setProducts] = useState()
+    const [products, setProducts] = useState([])
 
     useEffect(() => {
-        handleGetService()
-    }, [api])
-
-    useEffect(() => {
-        socket.on('on-change', data => {
-            data === 'tour' && handleGetService()
-        })
-    }, [])
-
-    const handleGetService = () => {
         axios.get(`${API_HOST}/api/v1/service/${user?.username}`)
             .then(res => {
                 setProducts(res.data.data)
@@ -31,7 +21,17 @@ const TourList = () => {
             .catch(err => {
                 console.log(err);
             })
-    }
+    }, [api])
+
+    useEffect(() => {
+        socket.on('on-change', data => {
+            // console.log(data);
+            setProducts(prev => {
+                return prev.map(el => el._id === data.documentKey._id ? ({ ...el, ...data.updateDescription.updatedFields }) : el)
+            })
+        })
+    }, [])
+
 
     return (
         <div className="bg-white">
