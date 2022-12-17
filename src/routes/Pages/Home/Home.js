@@ -326,7 +326,7 @@ function Home() {
               <div className="mt-6 space-y-12 lg:gap-x-6 lg:space-y-0 gap-x-8 gap-y-4 ">
                 {/* {callCards.map((callCard) => ( */}
                 <div class="max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                  <a onClick={() => navigate('/detail-tour', { state: { tourdata: tour } })}>
+                  <a onClick={() => navigate('/detail-tour/', { state: { tourdata: tour } })}>
                     <img
                       class="rounded-t-lg"
                       // src={callCard.imageTour}
