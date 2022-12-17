@@ -4,15 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import Slider from "@mui/material";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-// import moment from "moment";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import moment from "moment";
+import { Zoom } from "react-slideshow-image";
+import "react-slideshow-image/dist/styles.css";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-// import { Slider } from "@mui/material";
 
 const allArea = ["Miền Bắc", "Miền Nam", "Miền Trung"];
 
@@ -31,112 +31,6 @@ const slides = [
   },
 ];
 
-const callouts = [
-  {
-    name: "Desk and Office",
-    description: "Work from home accessories",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
-    imageAlt:
-      "Desk with leather desk pad, walnut desk organizer, wireless keyboard and mouse, and porcelain mug.",
-    href: "#",
-  },
-  {
-    name: "Self-Improvement",
-    description: "Journals and note-taking",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-02.jpg",
-    imageAlt:
-      "Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant.",
-    href: "#",
-  },
-  {
-    name: "Travel",
-    description: "Daily commute essentials",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg",
-    imageAlt: "Collection of four insulated travel bottles on wooden shelf.",
-    href: "#",
-  },
-  {
-    name: "Travel",
-    description: "Daily commute essentials",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg",
-    imageAlt: "Collection of four insulated travel bottles on wooden shelf.",
-    href: "#",
-  },
-];
-
-const callCards = [
-  {
-    title: "Khu di tích lịch sử Vàm Nhựt Tảo",
-    price: "250000",
-    area_slug: "thành phố hồ chí minh",
-    timeStart: "2002-12-7",
-    timeEnd: "2022-12-12",
-    description: "Đây là nơi giao giữa sông Vàm Cỏ Đông và sông Nhựt Tảo.",
-    imageTour:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
-    href: "#",
-  },
-  {
-    title: "Khu di tích lịch sử Vàm Nhựt Tảo",
-    price: "250000",
-    area_slug: "thành phố hồ chí minh",
-    timeStart: "2002-12-7",
-    timeEnd: "2022-12-12",
-    description: "Đây là nơi giao giữa sông Vàm Cỏ Đông và sông Nhựt Tảo.",
-    imageTour:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
-    href: "#",
-  },
-
-  {
-    title: "Khu di tích lịch sử Vàm Nhựt Tảo",
-    price: "250000",
-    area_slug: "thành phố hồ chí minh",
-    timeStart: "2002-12-7",
-    timeEnd: "2022-12-12",
-    description: "Đây là nơi giao giữa sông Vàm Cỏ Đông và sông Nhựt Tảo.",
-    imageTour:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
-    href: "#",
-  },
-  {
-    title: "Khu di tích lịch sử Vàm Nhựt Tảo",
-    price: "250000",
-    area_slug: "thành phố hồ chí minh",
-    timeStart: "2002-12-7",
-    timeEnd: "2022-12-12",
-    description: "Đây là nơi giao giữa sông Vàm Cỏ Đông và sông Nhựt Tảo.",
-    imageTour:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
-    href: "#",
-  },
-  {
-    title: "Khu di tích lịch sử Vàm Nhựt Tảo",
-    price: "250000",
-    area_slug: "thành phố hồ chí minh",
-    timeStart: "2002-12-7",
-    timeEnd: "2022-12-12",
-    description: "Đây là nơi giao giữa sông Vàm Cỏ Đông và sông Nhựt Tảo.",
-    imageTour:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
-    href: "#",
-  },
-  {
-    title: "Khu di tích lịch sử Vàm Nhựt Tảo",
-    price: "250000",
-    area_slug: "thành phố hồ chí minh",
-    timeStart: "2002-12-7",
-    timeEnd: "2022-12-12",
-    description: "Đây là nơi giao giữa sông Vàm Cỏ Đông và sông Nhựt Tảo.",
-    imageTour:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
-    href: "#",
-  },
-];
 const containerStyles = {
   width: "800px",
   height: "400px",
@@ -211,7 +105,6 @@ function Home() {
     backgroundImage: `url(${slides[currentIndex].url})`,
   };
   const [cartList, setCartList] = useState([]);
-  const [typeSort, setTypeSort] = useState();
   const [areas, setAreas] = useState();
   useEffect(() => {
     getCartList();
@@ -270,66 +163,53 @@ function Home() {
       });
   }, []);
 
+  const [imageSlides, setImageSlides] = useState();
+  useEffect(() => {
+    axios
+      .get("https://api.travels.games/api/v1/tour/show/last-tour/22")
+      .then((res) => {
+        console.log(res.data.data[0]);
+        setImageSlides(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  });
+
+  // slide image
+  // const images = [
+  //   'images/slide_2.jpg',
+  //   'images/slide_3.jpg',
+  //   'images/slide_4.jpg',
+  //   'images/slide_5.jpg',
+  //   'images/slide_6.jpg',
+  //   'images/slide_7.jpg'
+  // ];
   // ten mien
   const [allAreas, setAllAreas] = useState("region");
-
-  //     useEffect(() => {
-  //       axios
-  //         .get(
-  //           "https://api.travels.games/api/v1/tour/show/all/area/thanh-pho-ha-noi"
-  //         )
-  //         .then((res) => {
-  //           console.log(res.data.data[0]);
-  //           setCartList(res.data.data);
-  //         })
-  //         .catch((err) => {
-  //           console.log(err.response);
-  //         });
-  //     }, []);
-
-  // };
-
   return (
     <div className="bg-white">
       {/* slider */}
 
-      <div style={containerStyles}>
-        <div style={sliderStyles}>
-          <div>
-            {/* <div onClick={goToPrevious} style={leftArrowStyles}>
-              ❰
-            </div>
-            <div onClick={goToNext} style={rightArrowStyles}>
-              ❱
-            </div> */}
-          </div>
-          <div style={slideStylesWidthBackground}></div>
-          <div style={dotsContainerStyles}>
-            {slides.map((slide, slideIndex) => (
-              <div
-                style={dotStyle}
-                key={slideIndex}
-                onClick={() => goToSlide(slideIndex)}
-              >
-                ●
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
+      {/* <div className="slide-container">
+          <Zoom scale={0.4}>
+            {
+              images.map((each, index) => <img key={index} style={{width: "100%"}} src={each} />)
+            }
+          </Zoom>
+        </div> */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
           <h2 className="text-2xl font-bold text-gray-900">Collections</h2>
-          {homeList &&
-            homeList.map((tour) => (
-              <div className="mt-6 space-y-12 lg:gap-x-6 lg:space-y-0 gap-x-8 gap-y-4 ">
-                {/* {callCards.map((callCard) => ( */}
-                <div class="max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                  <a onClick={() => navigate('/detail-tour', { state: { tourdata: tour } })}>
+
+          <div className="grid gap-4 grid-cols-3 mt-6">
+            {homeList &&
+              homeList.map((tour) => (
+                <div class=" max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+                 <a onClick={() => navigate('/detail-tour', { state: { tourdata: tour } })}>
+
                     <img
-                      class="rounded-t-lg"
-                      // src={callCard.imageTour}
+                      class=" rounded-t-lg w-full h-60"
                       src={tour.images[0]}
                       alt="product image"
                     />
@@ -337,14 +217,10 @@ function Home() {
                   <div class="px-5 pb-5">
                     <a onClick={() => navigate('/detail-tour', { state: { tourdata: tour } })}>
                       <p class="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-400">
-                        {/* {moment(homeList.time_start).format("DD-MM-yyyy")} */}
                         {moment(tour.time_start).format("DD/MM/yyyy")} -{" "}
                         {moment(tour.time_end).format("DD/MM/yyyy")}
-                        {/* {tour.time_start} -{tour.time_end} */}
-                        {/*  - {tour.timeEnd} */}
                       </p>
                       <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                        {/* {callCard.title} */}
                         {tour.title}
                       </h5>
                     </a>
@@ -420,31 +296,31 @@ function Home() {
                     </div>
                   </div>
                 </div>
-                {/* ))} */}
-              </div>
-            ))}
-        </div>
-        <form>
-          <select onChange={(e) => hardleOnchaneArea(e.target.value)}>
-            {areas &&
-              areas.map((area) => (
-                <option value={area.slug}>{area.title}</option>
               ))}
-          </select>
-        </form>
+          </div>
+        </div>
+        <div>
+          <form>
+            <select onChange={(e) => hardleOnchaneArea(e.target.value)}>
+              {areas &&
+                areas.map((area) => (
+                  <option value={area.slug}>{area.title}</option>
+                ))}
+            </select>
+          </form>
+        </div>
         <div class="grid gap-x-8 gap-y-4 grid-rows-1 py-4">
           {cartList &&
             cartList.map((card) => (
-              <div class="flex flex-row md:flex-row rounded-lg bg-white shadow-lg">
-                <div>
+              <div class="flex rounded-lg bg-white shadow-lg">
+                <div class="flex-none">
                   <img
-                    class="max-h-sm w-full h-96 md:h-auto object-cover md:w-48 rounded-t-lg md:rounded-none md:rounded-l-lg"
+                    class="min-h-full w-full h-96 md:h-auto object-cover md:w-48 rounded-t-lg md:rounded-none md:rounded-l-lg"
                     src={card.images[0]}
                     alt=""
                   />
                 </div>
-
-                <div class="p-4 flex flex-col justify-start">
+                <div class="p-4 flex-1 flex-col justify-start">
                   <h5 class="text-gray-900 text-xl font-medium mb-2">
                     {card.title}
                   </h5>
@@ -508,8 +384,7 @@ function Home() {
                     </span>
                   </div>
                 </div>
-
-                <div class=" content-end">
+                <div class=" md:flex-1 flex-none content-end pr-1">
                   <p>giá chỉ từ</p>
                   <div class="flex items-center justify-between">
                     <span class="text-2xl font-bold text-gray-900 dark:text-red-600">
