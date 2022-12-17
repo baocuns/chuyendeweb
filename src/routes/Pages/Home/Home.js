@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Slider from "@mui/material";
@@ -85,6 +85,8 @@ const sliderStyles = {
 };
 function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const navigate = useNavigate();
+
   const goToPrevious = () => {
     const isFirstSlide = currentIndex === 0;
     const newIndex = isFirstSlide ? slides.length - 1 : currentIndex - 1;
@@ -199,11 +201,13 @@ function Home() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
           <h2 className="text-2xl font-bold text-gray-900">Collections</h2>
+
           <div className="grid gap-4 grid-cols-3 mt-6">
             {homeList &&
               homeList.map((tour) => (
                 <div class=" max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                  <a href="#">
+                 <a onClick={() => navigate('/detail-tour', { state: { tourdata: tour } })}>
+
                     <img
                       class=" rounded-t-lg w-full h-60"
                       src={tour.images[0]}
@@ -211,7 +215,7 @@ function Home() {
                     />
                   </a>
                   <div class="px-5 pb-5">
-                    <a href="#">
+                    <a onClick={() => navigate('/detail-tour', { state: { tourdata: tour } })}>
                       <p class="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-400">
                         {moment(tour.time_start).format("DD/MM/yyyy")} -{" "}
                         {moment(tour.time_end).format("DD/MM/yyyy")}

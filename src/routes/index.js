@@ -26,6 +26,7 @@ import DetailTour from "./Pages/DetailTour/DetailTour";
 import Order from "./Pages/Order/Order";
 import Orders from "./Pages/Order/Orders.";
 import Xanpay from "./Pages/Checkout/Xanpay/Xanpay";
+import Rating from "../layout/components/Rating/Rating";
 
 export const RoutedContent = () => {
   return (
@@ -45,6 +46,7 @@ export const RoutedContent = () => {
       {/* <Route path="/Slider" element={<Slider />} /> */}
 
       <Route path="/detail-tour" element={<DetailTour />} />
+      <Route path="/rating" element={<Rating />} />
       {/* cart order */}
       <Route path="/checkout/:oid" element={<Checkout />} />
       <Route path="/order/:oid" element={<Order />} />
