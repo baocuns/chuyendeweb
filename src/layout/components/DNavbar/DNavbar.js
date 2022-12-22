@@ -16,11 +16,39 @@ import {
     CiBellOn,
     CiChat2,
     CiLogout,
+    CiShoppingBasket
 } from "react-icons/ci";
 import {
     BsChevronRight,
 } from "react-icons/bs";
 
+const types = [
+    {
+        type: 'tour',
+        link: '/dashboard/tour',
+        icon: <CiRollingSuitcase size={18} />,
+    },
+    {
+        type: 'event',
+        link: '/dashboard/event',
+        icon: <CiCalendarDate size={18} />,
+    },
+    {
+        type: 'festival',
+        link: '/dashboard/festival',
+        icon: <CiRouter size={18} />,
+    },
+    {
+        type: 'orders',
+        link: '/dashboard/orders',
+        icon: <CiShoppingBasket size={18} />,
+    },
+    {
+        type: 'tourist_attraction',
+        link: '/dashboard/tourist_attraction',
+        icon: <CiLocationOn size={18} />,
+    },
+]
 
 
 const DNavbar = () => {
@@ -36,43 +64,30 @@ const DNavbar = () => {
     const keyRoutes = location.pathname.split('/')
 
     return (
-        <div className='flex fixed h-12 w-5/6 bg-white z-10 content-center'>
+        <div className='flex fixed h-12 w-full sm:w-5/6 bg-white z-10 content-center'>
             <button type='button' className='ml-8 hover:text-green-500'>
                 <CiGrid41 size={24} />
             </button>
+            <Link to={'/dashboard'} className='flex content-center ml-4'>
+                <button type='button' className='hover:text-green-500'>
+                    <CiHome size={18} />
+                </button>
+            </Link>
+            <button className='ml-2'>
+                <BsChevronRight size={12} />
+            </button>
             {keyRoutes.map(e => {
-                if (e === 'dashboard') {
-                    return (
-                        <>
-                            <Link to={'/dashboard'} className='flex content-center ml-4'>
+                return types.map(tp => {
+                    if (tp.type === e) {
+                        return (
+                            <Link to={tp.link} className='flex content-center ml-2'>
                                 <button type='button' className='hover:text-green-500'>
-                                    <CiHome size={18} />
+                                    {tp.icon}
                                 </button>
                             </Link>
-                            <button className='ml-2'>
-                                <BsChevronRight size={12} />
-                            </button>
-                        </>
-                    )
-                }
-                if (e === 'tour') {
-                    return (
-                        <Link to={'/dashboard/tour'} className='flex content-center ml-2'>
-                            <button type='button' className='hover:text-green-500'>
-                                <CiRollingSuitcase size={18} />
-                            </button>
-                        </Link>
-                    )
-                }
-                if (e === 'event') {
-                    return (
-                        <Link to={'/dashboard/event'} className='flex content-center ml-2'>
-                            <button type='button' className='hover:text-green-500'>
-                                <CiCalendarDate size={18} />
-                            </button>
-                        </Link>
-                    )
-                }
+                        )
+                    }
+                })
             })}
 
             {/* notification */}
