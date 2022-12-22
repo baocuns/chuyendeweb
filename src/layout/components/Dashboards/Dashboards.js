@@ -18,6 +18,7 @@ import {
     CiLocationOn,
     CiRollingSuitcase,
     CiBoxList,
+    CiShoppingBasket
 } from "react-icons/ci";
 import {
     AiOutlineDown,
