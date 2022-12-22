@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../../../redux/apiURL'
 import axios from 'axios';
@@ -34,19 +34,22 @@ const Dashhboards = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    const location = useLocation();
+    const keyRoutes = location.pathname.split('/')
+
     const handleLogout = () => {
         logout(user, dispatch, navigate)
     }
 
     const dashboards = [
-        { name: 'Dashboard', href: '/dashboard', current: true, icon: <CiHome size={18} /> },
-        { name: 'Tour', href: '/dashboard/tour', current: true, icon: <CiRollingSuitcase size={18} /> },
-        { name: 'Event', href: '/dashboard/event', current: false, icon: <CiCalendarDate size={18} /> },
-        { name: 'Festival', href: '/dashboard/festival', current: false, icon: <CiRouter size={18} /> },
-        { name: 'Orders', href: '/dashboard/orders', current: false, icon: <CiShoppingBasket size={18} /> },
-        { name: 'Tourist Attraction', href: '/dashboard/tourist_attraction', current: false, icon: <CiLocationOn size={18} /> },
+        { name: 'Dashboard', href: '/dashboard', current: false, icon: <CiHome size={18} /> },
+        { name: 'Tour', href: '/dashboard/tour', current: keyRoutes.some(key => key === 'tour'), icon: <CiRollingSuitcase size={18} /> },
+        { name: 'Event', href: '/dashboard/event', current: keyRoutes.some(key => key === 'event'), icon: <CiCalendarDate size={18} /> },
+        { name: 'Festival', href: '/dashboard/festival', current: keyRoutes.some(key => key === 'festival'), icon: <CiRouter size={18} /> },
+        { name: 'Orders', href: '/dashboard/orders', current: keyRoutes.some(key => key === 'orders'), icon: <CiShoppingBasket size={18} /> },
+        { name: 'Tourist Attraction', href: '/dashboard/tourist_attraction', current: keyRoutes.some(key => key === 'tourist_attraction'), icon: <CiLocationOn size={18} /> },
     ]
-    const [isDashboard, setIsDashhboard] = React.useState(true)
+    const [isDashboard, setIsDashhboard] = React.useState(false)
 
     const handleClickDashboard = () => {
         setIsDashhboard(!isDashboard)
@@ -96,6 +99,158 @@ const Dashhboards = () => {
                             </Menu.Button>
                         </div>
                     )}
+                    <Transition
+                        as={React.Fragment}
+                        enter='transition ease-out duration-100'
+                        enterFrom='transform opacity-0 scale-95'
+                        enterTo='transform opacity-100 scale-100'
+                        leave='transition ease-in duration-75'
+                        leaveFrom='transform opacity-100 scale-100'
+                        leaveTo='transform opacity-0 scale-95'
+                    >
+                        <Menu.Items className='absolute left-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+                            {/* Hi, user */}
+                            <div className='py-1'>
+                                {user ? (
+                                    <Menu.Item>
+                                        {({ active }) => (
+                                            <a
+                                                href='#'
+                                                className={classNames(
+                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                    'block px-4 py-2 text-sm'
+                                                )}
+                                            >
+                                                Hi, {user.username}
+                                            </a>
+                                        )}
+                                    </Menu.Item>
+                                ) : (
+                                    <Menu.Item>
+                                        {({ active }) => (
+                                            <a
+                                                href='#'
+                                                className={classNames(
+                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                    'block px-4 py-2 text-sm'
+                                                )}
+                                            >
+                                                Hi, User
+                                            </a>
+                                        )}
+                                    </Menu.Item>
+                                )}
+                            </div>
+                            {/* dashboard */}
+                            <div className='py-1'>
+                                {user && (
+                                    <Menu.Item>
+                                        {({ active }) => (
+                                            <a
+                                                href='#'
+                                                className={classNames(
+                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                    'block px-4 py-2 text-sm'
+                                                )}
+                                            >
+                                                My Profile
+                                            </a>
+                                        )}
+                                    </Menu.Item>
+                                )}
+                                <Menu.Item>
+                                    {({ active }) => (
+                                        <a
+                                            href='#'
+                                            className={classNames(
+                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                'block px-4 py-2 text-sm'
+                                            )}
+                                        >
+                                            Settings
+                                        </a>
+                                    )}
+                                </Menu.Item>
+                                {user && (
+                                    <Menu.Item>
+                                        {({ active }) => (
+                                            <a
+                                                href='#'
+                                                className={classNames(
+                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                    'block px-4 py-2 text-sm'
+                                                )}
+                                            >
+                                                Cart
+                                            </a>
+                                        )}
+                                    </Menu.Item>
+                                )}
+                                {user && (
+                                    <Menu.Item>
+                                        {({ active }) => (
+                                            <a
+                                                href='#'
+                                                className={classNames(
+                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                    'block px-4 py-2 text-sm'
+                                                )}
+                                            >
+                                                Order
+                                            </a>
+                                        )}
+                                    </Menu.Item>
+                                )}
+                                <Menu.Item>
+                                    {({ active }) => (
+                                        <a
+                                            href='#'
+                                            className={classNames(
+                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                'block px-4 py-2 text-sm'
+                                            )}
+                                        >
+                                            History
+                                        </a>
+                                    )}
+                                </Menu.Item>
+                            </div>
+                            {/* login - logout */}
+                            <div className='py-1'>
+                                {user ? (
+                                    <Menu.Item>
+                                        {({ active }) => (
+                                            <a
+                                                href='#'
+                                                className={classNames(
+                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                    'block px-4 py-2 text-sm'
+                                                )}
+                                                onClick={handleLogout}
+                                            >
+                                                Logout
+                                            </a>
+                                        )}
+                                    </Menu.Item>
+                                ) : (
+                                    <Menu.Item>
+                                        {({ active }) => (
+                                            <a
+                                                href='/login'
+                                                className={classNames(
+                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                    'block px-4 py-2 text-sm'
+                                                )}
+                                            >
+                                                Login
+                                            </a>
+                                        )}
+                                    </Menu.Item>
+                                )}
+
+                            </div>
+                        </Menu.Items>
+                    </Transition>
                 </Menu>
             </div>
             <hr className="my-4 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-6" />
@@ -103,7 +258,7 @@ const Dashhboards = () => {
 
             <div class="w-full text-gray-900 bg-white dark:text-white">
                 <Link to={'#'}>
-                    <button type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium border-b border-gray-200 hover:bg-gray-100 hover:text-green-500 focus:z-10  focus:bg-green-300 focus:text-black dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                    <button type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium border-b border-gray-200 hover:bg-gray-100 hover:text-green-500 focus:z-10  focus:bg-green-500 focus:text-black dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
                         <CiUser size={18} />
                         <div className='pl-2 invisible sm:visible'>
                             Profile
@@ -113,7 +268,7 @@ const Dashhboards = () => {
                 <div>
                     <button
                         type="button"
-                        class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium border-b border-gray-200 hover:bg-gray-100 hover:text-green-500 focus:z-10  focus:bg-green-300 focus:text-black dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
+                        class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium border-b border-gray-200 hover:bg-gray-100 hover:text-green-500 focus:z-10  focus:bg-green-500 focus:text-white dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
                         onClick={handleClickDashboard}
                     >
                         <CiHome size={18} />
@@ -127,7 +282,10 @@ const Dashhboards = () => {
                     <div hidden={isDashboard}>
                         {dashboards.map(item => (
                             <Link to={item.href}>
-                                <button type="button" class="pl-8 inline-flex relative items-center py-2 px-4 w-full text-sm font-medium hover:bg-gray-100 hover:text-green-500 focus:z-10  focus:bg-green-300 focus:text-black dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                                <button type="button" class={classNames(
+                                    "pl-8 inline-flex relative items-center py-2 px-4 w-full text-sm font-medium hover:bg-gray-100 hover:text-green-500 focus:z-10  focus:bg-green-500 focus:text-white dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white",
+                                    item.current ? 'bg-green-500 text-white': ''
+                                )}>
                                     {item.icon}
                                     <div className='pl-2 invisible sm:visible'>
                                         {item.name}
@@ -137,7 +295,7 @@ const Dashhboards = () => {
                         ))}
                     </div>
                 </div>
-                <button type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium border-b border-gray-200 hover:bg-gray-100 hover:text-green-500 focus:z-10  focus:bg-green-300 focus:text-black dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                <button type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium border-b border-gray-200 hover:bg-gray-100 hover:text-green-500 focus:z-10  focus:bg-green-500 focus:text-white dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
                     <CiBoxList size={18} />
                     <div className='pl-2 invisible sm:visible'>
                         Service
@@ -145,7 +303,7 @@ const Dashhboards = () => {
                 </button>
 
 
-                <button type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium hover:bg-gray-100 hover:text-green-500 focus:z-10  focus:bg-green-300 focus:text-black dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                <button type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium hover:bg-gray-100 hover:text-green-500 focus:z-10  focus:bg-green-500 focus:text-white dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
                     <svg aria-hidden="true" class="mr-2 w-4 h-4 fill-current" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z" clip-rule="evenodd"></path></svg>
                     Download
                 </button>

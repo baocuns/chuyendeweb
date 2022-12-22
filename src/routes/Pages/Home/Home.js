@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Slider from "@mui/material";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+// import moment from "moment";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
@@ -13,6 +14,7 @@ import "react-slideshow-image/dist/styles.css";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+// import { Slider } from "@mui/material";
 
 const allArea = ["Miền Bắc", "Miền Nam", "Miền Trung"];
 
@@ -31,6 +33,112 @@ const slides = [
   },
 ];
 
+const callouts = [
+  {
+    name: "Desk and Office",
+    description: "Work from home accessories",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
+    imageAlt:
+      "Desk with leather desk pad, walnut desk organizer, wireless keyboard and mouse, and porcelain mug.",
+    href: "#",
+  },
+  {
+    name: "Self-Improvement",
+    description: "Journals and note-taking",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-02.jpg",
+    imageAlt:
+      "Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant.",
+    href: "#",
+  },
+  {
+    name: "Travel",
+    description: "Daily commute essentials",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg",
+    imageAlt: "Collection of four insulated travel bottles on wooden shelf.",
+    href: "#",
+  },
+  {
+    name: "Travel",
+    description: "Daily commute essentials",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg",
+    imageAlt: "Collection of four insulated travel bottles on wooden shelf.",
+    href: "#",
+  },
+];
+
+const callCards = [
+  {
+    title: "Khu di tích lịch sử Vàm Nhựt Tảo",
+    price: "250000",
+    area_slug: "thành phố hồ chí minh",
+    timeStart: "2002-12-7",
+    timeEnd: "2022-12-12",
+    description: "Đây là nơi giao giữa sông Vàm Cỏ Đông và sông Nhựt Tảo.",
+    imageTour:
+      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
+    href: "#",
+  },
+  {
+    title: "Khu di tích lịch sử Vàm Nhựt Tảo",
+    price: "250000",
+    area_slug: "thành phố hồ chí minh",
+    timeStart: "2002-12-7",
+    timeEnd: "2022-12-12",
+    description: "Đây là nơi giao giữa sông Vàm Cỏ Đông và sông Nhựt Tảo.",
+    imageTour:
+      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
+    href: "#",
+  },
+
+  {
+    title: "Khu di tích lịch sử Vàm Nhựt Tảo",
+    price: "250000",
+    area_slug: "thành phố hồ chí minh",
+    timeStart: "2002-12-7",
+    timeEnd: "2022-12-12",
+    description: "Đây là nơi giao giữa sông Vàm Cỏ Đông và sông Nhựt Tảo.",
+    imageTour:
+      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
+    href: "#",
+  },
+  {
+    title: "Khu di tích lịch sử Vàm Nhựt Tảo",
+    price: "250000",
+    area_slug: "thành phố hồ chí minh",
+    timeStart: "2002-12-7",
+    timeEnd: "2022-12-12",
+    description: "Đây là nơi giao giữa sông Vàm Cỏ Đông và sông Nhựt Tảo.",
+    imageTour:
+      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
+    href: "#",
+  },
+  {
+    title: "Khu di tích lịch sử Vàm Nhựt Tảo",
+    price: "250000",
+    area_slug: "thành phố hồ chí minh",
+    timeStart: "2002-12-7",
+    timeEnd: "2022-12-12",
+    description: "Đây là nơi giao giữa sông Vàm Cỏ Đông và sông Nhựt Tảo.",
+    imageTour:
+      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
+    href: "#",
+  },
+  {
+    title: "Khu di tích lịch sử Vàm Nhựt Tảo",
+    price: "250000",
+    area_slug: "thành phố hồ chí minh",
+    timeStart: "2002-12-7",
+    timeEnd: "2022-12-12",
+    description: "Đây là nơi giao giữa sông Vàm Cỏ Đông và sông Nhựt Tảo.",
+    imageTour:
+      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
+    href: "#",
+  },
+];
 const containerStyles = {
   width: "800px",
   height: "400px",
@@ -105,6 +213,7 @@ function Home() {
     backgroundImage: `url(${slides[currentIndex].url})`,
   };
   const [cartList, setCartList] = useState([]);
+  const [typeSort, setTypeSort] = useState();
   const [areas, setAreas] = useState();
   useEffect(() => {
     getCartList();
@@ -174,7 +283,7 @@ function Home() {
       .catch((err) => {
         console.log(err.response);
       });
-  });
+  }, []);
 
   // slide image
   // const images = [
@@ -215,10 +324,14 @@ function Home() {
                   <div class="px-5 pb-5">
                     <a onClick={() => navigate('/detail-tour', { state: { tourdata: tour } })}>
                       <p class="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-400">
+                        {/* {moment(homeList.time_start).format("DD-MM-yyyy")} */}
                         {moment(tour.time_start).format("DD/MM/yyyy")} -{" "}
                         {moment(tour.time_end).format("DD/MM/yyyy")}
+                        {/* {tour.time_start} -{tour.time_end} */}
+                        {/*  - {tour.timeEnd} */}
                       </p>
                       <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                        {/* {callCard.title} */}
                         {tour.title}
                       </h5>
                     </a>

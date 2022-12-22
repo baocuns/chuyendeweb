@@ -19,8 +19,14 @@ module.exports = {
       },
     },
   },
+  variants: {
+    extend: {
+      lineClamp: ["hover"],
+    }
+  },
   plugins: [
     require('@tailwindcss/aspect-ratio'),
     require("daisyui"),
+    require('@tailwindcss/line-clamp'),
   ],
 }

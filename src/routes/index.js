@@ -27,6 +27,7 @@ import Order from "./Pages/Order/Order";
 import Orders from "./Pages/Order/Orders.";
 import Xanpay from "./Pages/Checkout/Xanpay/Xanpay";
 import Rating from "../layout/components/Rating/Rating";
+import Register from "./Pages/Login/Register";
 
 export const RoutedContent = () => {
   return (
@@ -38,9 +39,11 @@ export const RoutedContent = () => {
       <Route path="/dashboard/tour" element={<Dashboards.Tour />} />
       <Route path="/dashboard/tour/:slug" element={<Dashboards.Details />} />
       <Route path="/dashboard/orders" element={<Dashboards.Orders />} />
+      <Route path="/dashboard/orders/details/:oid" element={<Dashboards.Order />} />
 
       {/* pages */}
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/tour" element={<Tour />} />
       <Route path="/home" element={<Home />} />
 

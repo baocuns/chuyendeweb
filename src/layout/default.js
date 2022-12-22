@@ -6,6 +6,7 @@ import socket from "../socket.io/socket.io"
 
 
 const AppLayout = (props) => {
+
     const { children } = props
     const navigate = useNavigate()
     const location = useLocation()
@@ -14,6 +15,13 @@ const AppLayout = (props) => {
 
     const keyRoutes = location.pathname.split('/')
     const isDashboard = keyRoutes.includes('dashboard')
+
+    // const socketRef = useRef();
+
+    // useEffect(() => {
+    //     socketRef.current = socketIOClient.connect('API_HOST/')
+    //     console.log('OK');
+    // }, [])
 
     useEffect(() => {
         if (isDashboard) {
@@ -49,7 +57,7 @@ const AppLayout = (props) => {
                         <Dashhboards />
                     </div>
                 </div>
-                <div className="basis-5/6 sm:w-full">
+                <div className="sm:basis-5/6 basis-full">
                     <DNavbar />
                     <div className="h-12"></div>
                     {children}
