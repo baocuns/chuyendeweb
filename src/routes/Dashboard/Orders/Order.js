@@ -127,6 +127,10 @@ const Order = () => {
 									</div>
 									<div className="flex my-8 flex-col items-end w-full space-y-2">
 										<div className="flex justify-start w-full items-center">
+											<p className="text-lg leading-4 mr-2 text-black">Date:</p>
+											<p className="text-lg font-thin leading-4 text-black">{new Date(order.createdAt).toLocaleDateString()}</p>
+										</div>
+										<div className="flex justify-start w-full items-center">
 											<p className="text-lg leading-4 mr-2 text-black">Mô tả:</p>
 											<p className="text-lg font-thin leading-4 text-black">{order.info}</p>
 										</div>
