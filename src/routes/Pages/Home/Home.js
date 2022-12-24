@@ -59,7 +59,7 @@ function Home() {
         "https://api.travels.games/api/v1/tour/show/all/area/thanh-pho-ha-noi"
       )
       .then((res) => {
-        // console.log(res.data.data[0]);
+        console.log(res.data.data[0]);  
         setCartList(res.data.data);
       })
       .catch((err) => {
