@@ -53,11 +53,11 @@ function Home() {
 			})
 	}
 
-	const getCartList = async () => {
+	const getCartList = () => {
 		axios
-			.get('https://api.travels.games/api/v1/tour/show/all/area/thanh-pho-ha-noi')
+			.get(`https://api.travels.games/api/v1/tour/show/all/area/tinh-ha-giang`)
 			.then((res) => {
-				console.log(res.data.data[0])
+				// console.log(res.data.data[0])
 				setCartList(res.data.data)
 			})
 			.catch((err) => {
@@ -101,7 +101,7 @@ function Home() {
 			.catch((err) => {
 				console.log(err.response)
 			})
-	})
+	}, [])
 
 	const contentStyle = {
 		height: '600px',
@@ -110,13 +110,14 @@ function Home() {
 		textAlign: 'center',
 		background: '#364d79',
 	}
-	const [search, setSearch] = useState('')
-	const hardleResearchArea = (reSrearchArea) => {
-		if (reSrearchArea != ' ') {
+	// const [search, setSearch] = useState('')
+
+	const hardleResearchArea = (search) => {
+		if (search != '') {
 			axios
-				.get(`https://api.travels.games/api/v1/tour/show/all/search/${reSrearchArea}`)
+				.get(`https://api.travels.games/api/v1/tour/show/all/search/${search}`)
 				.then((res) => {
-					// console.log(res.data.data[0]);
+					console.log('search: ', res.data.data)
 					setHomeList(res.data.data)
 				})
 				.catch((err) => {
@@ -126,7 +127,7 @@ function Home() {
 			axios
 				.get('https://api.travels.games/api/v1/tour/show/last-tour/22')
 				.then((res) => {
-					// console.log(res.data.data[0]);
+					console.log('ajsh:', res.data.data)
 					setHomeList(res.data.data)
 				})
 				.catch((err) => {
@@ -152,8 +153,8 @@ function Home() {
 					<form class="text-2xl">
 						<a> </a>
 						<input
-							onChange={(e) => hardleResearchArea(e.target.value)}
 							class="border-black rounded-l-lg"
+							onChange={(e) => hardleResearchArea(e.target.value)}
 							placeholder="search:"
 						></input>
 					</form>
@@ -257,6 +258,7 @@ function Home() {
 				<div>
 					<form>
 						<select onChange={(e) => hardleOnchaneArea(e.target.value)}>
+							{/* <option value={area.slug}>{area.title}</option> */}
 							{areas && areas.map((area) => <option value={area.slug}>{area.title}</option>)}
 						</select>
 					</form>
