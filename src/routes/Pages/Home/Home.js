@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-// import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Slider from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -10,126 +9,57 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import moment from "moment";
 import { Zoom } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
+import { Carousel } from "antd";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-
-const allArea = ["Miền Bắc", "Miền Nam", "Miền Trung"];
-
 const slides = [
   {
-    url: "https://pbs.twimg.com/media/Fhsi8OVaMAAjiCZ?format=png&name=large",
+    url: "https://api.travels.games/api/v1/views/show/photos/photos-16677601765351",
   },
   {
-    url: "https://pbs.twimg.com/media/Ff0cV0JaMAExnBF?format=jpg&name=large",
+    url: "https://api.travels.games/api/v1/views/show/photos/photos-16677601765422",
   },
   {
-    url: "https://pbs.twimg.com/media/Fhsi8OVaMAAjiCZ?format=png&name=large",
+    url: "http://api.travels.games/api/v1/views/show/photos/photos-16677601765422",
   },
   {
-    url: "https://pbs.twimg.com/media/Ff0cV0JaMAExnBF?format=jpg&name=large",
+    url: "https://api.travels.games/api/v1/views/show/photos/photos-16677601765290",
   },
 ];
 
-const containerStyles = {
-  width: "800px",
-  height: "400px",
-  margin: "0 auto",
-  marginTop: "30px",
-};
-
-const slideStyles = {
-  width: "100%",
-  height: "100%",
-  borderRadius: "10px",
-  backgroundSize: "cover",
-  backgroundPosition: "center",
-};
-
-const rightArrowStyles = {
-  position: "absolute",
-  top: "50%",
-  transform: "translate(0, -50%)",
-  right: "32px",
-  fontSize: "45px",
-  color: "#fff",
-  zIndex: 1,
-  cursor: "pointer",
-};
-
-const leftArrowStyles = {
-  position: "absolute",
-  top: "50%",
-  transform: "translate(0, -50%)",
-  left: "32px",
-  fontSize: "45px",
-  color: "#fff",
-  zIndex: 1,
-  cursor: "pointer",
-};
-
-const dotsContainerStyles = {
-  display: "flex",
-  justifyContent: "center",
-};
-
-const dotStyle = {
-  margin: "0 3px",
-  cursor: "pointer",
-  fontSize: "20px",
-};
-
-const sliderStyles = {
-  position: "relative",
-  height: "100%",
-};
 function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const goToPrevious = () => {
-    const isFirstSlide = currentIndex === 0;
-    const newIndex = isFirstSlide ? slides.length - 1 : currentIndex - 1;
-    setCurrentIndex(newIndex);
-  };
-  const goToNext = () => {
-    const isLastSlide = currentIndex === slides.length - 1;
-    const newIndex = isLastSlide ? 0 : currentIndex + 1;
-    setCurrentIndex(newIndex);
-  };
-  const goToSlide = (slideIndex) => {
-    setCurrentIndex(slideIndex);
-  };
-  const slideStylesWidthBackground = {
-    ...slideStyles,
-    backgroundImage: `url(${slides[currentIndex].url})`,
-  };
   const [cartList, setCartList] = useState([]);
   const [areas, setAreas] = useState();
+
   useEffect(() => {
     getCartList();
   }, []);
 
   useEffect(() => {
     getAllArea();
-  }, []);
+  }, [0]);
 
   const getAllArea = async () => {
     axios
       .get("https://api.travels.games/api/v1/area/show/all")
       .then((res) => {
-        console.log(res.data.data[0]);
+        // console.log(res.data.data[0]);
         setAreas(res.data.data);
       })
       .catch((err) => {
         console.log(err.response);
       });
   };
+
   const getCartList = async () => {
     axios
       .get(
         "https://api.travels.games/api/v1/tour/show/all/area/thanh-pho-ha-noi"
       )
       .then((res) => {
-        console.log(res.data.data[0]);
+        // console.log(res.data.data[0]);
         setCartList(res.data.data);
       })
       .catch((err) => {
@@ -141,19 +71,20 @@ function Home() {
     axios
       .get(`https://api.travels.games/api/v1/tour/show/all/area/${SlugArea}`)
       .then((res) => {
-        console.log(res.data.data[0]);
+        // console.log(res.data.data[0]);
         setCartList(res.data.data);
       })
       .catch((err) => {
         console.log(err.response);
       });
   };
+
   const [homeList, setHomeList] = useState();
   useEffect(() => {
     axios
       .get("https://api.travels.games/api/v1/tour/show/last-tour/22")
       .then((res) => {
-        console.log(res.data.data[0]);
+        // console.log(res.data.data[0]);
         setHomeList(res.data.data);
       })
       .catch((err) => {
@@ -166,7 +97,7 @@ function Home() {
     axios
       .get("https://api.travels.games/api/v1/tour/show/last-tour/22")
       .then((res) => {
-        console.log(res.data.data[0]);
+        // console.log(res.data.data[0]);
         setImageSlides(res.data.data);
       })
       .catch((err) => {
@@ -174,30 +105,62 @@ function Home() {
       });
   });
 
-  // slide image
-  // const images = [
-  //   'images/slide_2.jpg',
-  //   'images/slide_3.jpg',
-  //   'images/slide_4.jpg',
-  //   'images/slide_5.jpg',
-  //   'images/slide_6.jpg',
-  //   'images/slide_7.jpg'
-  // ];
-  // ten mien
-  const [allAreas, setAllAreas] = useState("region");
+  const contentStyle = {
+    height: "600px",
+    color: "#fff",
+    lineHeight: "300px",
+    textAlign: "center",
+    background: "#364d79",
+  };
+  const [search, setSearch] = useState("");
+  const hardleResearchArea = (reSrearchArea) => {
+    if (reSrearchArea != " ") {
+      axios
+        .get(
+          `https://api.travels.games/api/v1/tour/show/all/search/${reSrearchArea}`
+        )
+        .then((res) => {
+          // console.log(res.data.data[0]);
+          setHomeList(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    } else {
+      axios
+        .get("https://api.travels.games/api/v1/tour/show/last-tour/22")
+        .then((res) => {
+          // console.log(res.data.data[0]);
+          setHomeList(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    }
+  };
   return (
     <div className="bg-white">
       {/* slider */}
+      <Carousel autoplay>
+        {slides.map((slide) => (
+          <div>
+            <h3 style={contentStyle}>
+              <img class=" rounded-t-lg w-full h-full" src={slide.url} />
+            </h3>
+          </div>
+        ))}
+      </Carousel>
 
-      {/* <div className="slide-container">
-          <Zoom scale={0.4}>
-            {
-              images.map((each, index) => <img key={index} style={{width: "100%"}} src={each} />)
-            }
-          </Zoom>
-        </div> */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
+          <form class="text-2xl">
+            <a> </a>
+            <input
+              onChange={(e) => hardleResearchArea(e.target.value)}
+              class="border-black rounded-l-lg"
+              placeholder="search:"
+            ></input>
+          </form>
           <h2 className="text-2xl font-bold text-gray-900">Collections</h2>
           <div className="grid gap-4 grid-cols-3 mt-6">
             {homeList &&
@@ -205,7 +168,7 @@ function Home() {
                 <div class=" max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
                   <a href="#">
                     <img
-                      class=" rounded-t-lg w-full h-60"
+                      class=" rounded-t-lg w-full h-72"
                       src={tour.images[0]}
                       alt="product image"
                     />
@@ -276,7 +239,7 @@ function Home() {
                       </span>
                     </div>
                     <p class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                      {tour.area_slug}
+                      ({tour.address_start}) đến ({tour.address_end})
                     </p>
                     <div class="flex items-center justify-between">
                       <span class="text-3xl font-bold text-gray-900 dark:text-white">
