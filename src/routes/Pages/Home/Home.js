@@ -240,11 +240,19 @@ function Home() {
 				<div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
 					<form class="text-2xl">
 						<a> </a>
-						<input
-							class="border-black rounded-t-lg rounded-r-lg rounded-b-lg	rounded-l-lg"
-							onChange={(e) => hardleResearchArea(e.target.value)}
-							placeholder="search:"
-						></input>
+						<label class="relative block">
+							<span class="sr-only">Search</span>
+							<span class="absolute inset-y-0 left-0 flex items-center pl-2">
+								<svg class="h-5 w-5 fill-slate-300" viewBox="0 0 20 20"></svg>
+							</span>
+							<input
+								class="placeholder:italic placeholder:text-slate-400 block bg-white w-58 border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+								placeholder="search:"
+								onChange={(e) => hardleResearchArea(e.target.value)}
+								type="text"
+								name="search"
+							/>
+						</label>
 					</form>
 					<h2 className="text-2xl font-bold text-gray-900">Collections</h2>
 					<div className="grid gap-4 grid-cols-3 mt-6">
