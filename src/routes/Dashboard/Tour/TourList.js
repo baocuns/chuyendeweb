@@ -61,7 +61,10 @@ const TourList = ({ type }) => {
 										/>
 									</div>
 								)}
-								<div className="mt-4 p-2 rounded shadow-md ease-in-out duration-300 hover:scale-105">
+								<div className={classNames(
+									'mt-4 p-2 rounded shadow-md', 
+									type && 'hover:scale-105 ease-in-out duration-300'
+								)}>
 									<div className="flex justify-between">
 										<p className="mt-1 text-sm text-gray-500">
 											{new Date(product.time_start).toLocaleDateString()}
