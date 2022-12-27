@@ -9,8 +9,6 @@ import Login from './Pages/Login'
 import Tour from './Pages/Tour'
 import Home from './Pages/Home'
 
-import Slider from './Pages/Slider'
-
 import Checkout from './Pages/Checkout/Checkout'
 
 // --------404
@@ -21,7 +19,6 @@ import Orders from './Pages/Order/Orders.'
 import Xanpay from './Pages/Checkout/Xanpay/Xanpay'
 import Rating from '../layout/components/Rating/Rating'
 import Register from './Pages/Login/Register'
-
 export const RoutedContent = () => {
 	return (
 		<Routes>
@@ -40,8 +37,6 @@ export const RoutedContent = () => {
 			<Route path="/tour" element={<Tour />} />
 			<Route path="/home" element={<Home />} />
 
-			{/* <Route path="/Slider" element={<Slider />} /> */}
-
 			<Route path="/detail-tour" element={<DetailTour />} />
 			<Route path="/rating" element={<Rating />} />
 			{/* cart order */}
@@ -55,5 +50,3 @@ export const RoutedContent = () => {
 		</Routes>
 	)
 }
-
-// ok chua
