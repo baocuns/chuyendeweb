@@ -13,106 +13,18 @@ import { Carousel } from 'antd'
 function classNames(...classes) {
 	return classes.filter(Boolean).join(' ')
 }
-
-const callouts = [
-	{
-		name: 'Travel',
-		description: 'Daily commute essentials',
-		imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg',
-		imageAlt: 'Collection of four insulated travel bottles on wooden shelf.',
-		href: '#',
-		price: '200000',
-		title: 'thành phố hồ chí minh',
-		time_start: '12/12/2002',
-		time_end: '12/12/2002',
-	},
-	{
-		name: 'Travel',
-		description: 'Daily commute essentials',
-		imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg',
-		imageAlt: 'Collection of four insulated travel bottles on wooden shelf.',
-		href: '#',
-		price: '200000',
-		title: 'thành phố hồ chí minh',
-		time_start: '12/12/2002',
-		time_end: '12/12/2002',
-	},
-	{
-		name: 'Travel',
-		description: 'Daily commute essentials',
-		imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg',
-		imageAlt: 'Collection of four insulated travel bottles on wooden shelf.',
-		href: '#',
-		price: '200000',
-		title: 'thành phố hồ chí minh',
-		time_start: '12/12/2002',
-		time_end: '12/12/2002',
-	},
-]
-
-const homeListss = [
-	{
-		name: 'Travel',
-		description: 'Daily commute essentials',
-		imageSrc: 'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Akali_0.jpg',
-		imageAlt: 'Collection of four insulated travel bottles on wooden shelf.',
-		href: '#',
-		price: '200000',
-		title: 'thành phố hồ chí minh',
-		time_start: '12/12/2002',
-		time_end: '12/12/2002',
-	},
-	{
-		name: 'Travel',
-		description: 'Daily commute essentials',
-		imageSrc: 'https://cdngarenanow-a.akamaihd.net/webmain/static/pss/lol/items_splash/akali_9.jpg',
-		imageAlt: 'Collection of four insulated travel bottles on wooden shelf.',
-		href: '#',
-		price: '200000',
-		title: 'thành phố hồ chí minh',
-		time_start: '12/12/2002',
-		time_end: '12/12/2002',
-	},
-	{
-		name: 'Travel',
-		description: 'Daily commute essentials',
-		imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg',
-		imageAlt: 'Collection of four insulated travel bottles on wooden shelf.',
-		href: '#',
-		price: '200000',
-		title:
-			'thành phố hồ chí minhdthành phố hồ chí minhdthành phố hồ chí minhdthành phố hồ chí minhd',
-		time_start: '12/12/2002',
-		time_end: '12/12/2002',
-		address_start: 'thành phố hà nội',
-		address_end: 'thành phố hồ chí minh',
-	},
-]
-
 const slides = [
-	// {
-	// 	url: 'https://api.travels.games/api/v1/views/show/photos/photos-16677601765351',
-	// },
-	// {
-	// 	url: 'https://api.travels.games/api/v1/views/show/photos/photos-16677601765422',
-	// },
-	// {
-	// 	url: 'http://api.travels.games/api/v1/views/show/photos/photos-16677601765422',
-	// },
-	// {
-	// 	url: 'https://api.travels.games/api/v1/views/show/photos/photos-16677601765290',
-	// },
 	{
-		url: 'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Akali_0.jpg',
+		url: 'https://api.travels.games/api/v1/views/show/photos/photos-16677601765351',
 	},
 	{
-		url: 'https://cdngarenanow-a.akamaihd.net/webmain/static/pss/lol/items_splash/akali_9.jpg',
+		url: 'https://api.travels.games/api/v1/views/show/photos/photos-16677601765422',
 	},
 	{
-		url: 'https://cdngarenanow-a.akamaihd.net/webmain/static/pss/lol/items_splash/akali_61.jpg',
+		url: 'http://api.travels.games/api/v1/views/show/photos/photos-16677601765422',
 	},
 	{
-		url: 'https://hosonhanvat.vn/wp-content/uploads/2020/04/ho-so-tieu-su-cau-chuyen-cua-akali.jpg',
+		url: 'https://api.travels.games/api/v1/views/show/photos/photos-16677601765290',
 	},
 ]
 
@@ -256,13 +168,13 @@ function Home() {
 					</form>
 					<h2 className="text-2xl font-bold text-gray-900">Collections</h2>
 					<div className="grid gap-4 grid-cols-3 mt-6">
-						{homeListss &&
-							homeListss.map((tour) => (
+						{homeList &&
+							homeList.map((tour) => (
 								<div class=" max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
 									<a href="#">
 										<img
 											class=" rounded-t-lg w-full h-72"
-											src={tour.imageSrc}
+											src={tour.images[0]}
 											alt="product image"
 										/>
 									</a>
@@ -272,7 +184,7 @@ function Home() {
 												{moment(tour.time_start).format('DD/MM/yyyy')} -{' '}
 												{moment(tour.time_end).format('DD/MM/yyyy')}
 											</p>
-											<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-2">
+											<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-1">
 												{tour.title}
 											</h5>
 										</a>
@@ -360,19 +272,18 @@ function Home() {
 					</form>
 				</div>
 				<div class="grid gap-x-8 gap-y-4 grid-rows-1 py-4">
-					{callouts &&
-						callouts.map((card) => (
+					{cartList &&
+						cartList.map((card) => (
 							<div class="flex rounded-lg bg-white shadow-lg">
 								<div class="flex-none">
 									<img
 										class="min-h-full w-full h-96 md:h-auto object-cover md:w-48 rounded-t-lg md:rounded-none md:rounded-l-lg"
-										src={card.imageSrc}
+										src={card.images[0]}
 										alt=""
 									/>
 								</div>
-
-								<div class="p-4 flex-1 justify-start">
-									<h5 class="text-gray-900 text-xl font-medium mb-2 line-clamp-2">{card.title}</h5>
+								<div class="p-4 flex-1 flex-col justify-start">
+									<h5 class="text-gray-900 text-xl font-medium mb-2">{card.title}</h5>
 									<p class="text-gray-700 text-base mb-4">
 										{card.address_start} - {card.address_end}
 									</p>
@@ -433,15 +344,14 @@ function Home() {
 										</span>
 									</div>
 								</div>
-
-								<div class=" content-end pr-1 justify-self-end p-4">
-									<p>giá chỉ từ:</p>
+								<div class="content-end pr-1 justify-self-end p-4">
+									<p>giá chỉ từ</p>
 									<div class="flex items-center justify-between">
 										<span class="text-2xl font-bold text-gray-900 dark:text-red-600">
 											{card.price} VNĐ
 										</span>
 									</div>
-									<p class="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-400 ">
+									<p class="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-400">
 										{moment(card.createdAt).format('DD-MM-yyyy')}
 									</p>
 									<div class="pt-2">
