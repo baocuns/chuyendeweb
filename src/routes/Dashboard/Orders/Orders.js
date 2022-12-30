@@ -51,12 +51,6 @@ const Orders = () => {
 		handleCallAPIOrder()
 	}, [])
 
-	// --------------------------------dropdown
-	const [dropdownId, setDropdownId] = useState()
-	const handleDropdown = (id) => {
-		dropdownId === id && setDropdownId(null)
-		dropdownId !== id && setDropdownId(id)
-	}
 	return (
 		<div className="overflow-hidden bg-white shadow sm:rounded-lg m-4">
 			{isAlert && <Components.Loader />}

@@ -31,6 +31,7 @@ function classNames(...classes) {
 
 const Dashhboards = () => {
     const user = useSelector((state) => state.auth.login.currentUser)
+    const profile = JSON.parse(localStorage.getItem('profile'))
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -80,7 +81,7 @@ const Dashhboards = () => {
                                 <span className='sr-only'>Open user menu</span>
                                 <img
                                     className='h-12 w-12 rounded-full'
-                                    src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+                                    src={profile?.images[0]}
                                     alt=''
                                 />
                                 <div className='absolute h-3 w-3 bg-red-500 bottom-0 right-0 rounded-full border-solid border-2 border-white' />
@@ -99,165 +100,13 @@ const Dashhboards = () => {
                             </Menu.Button>
                         </div>
                     )}
-                    <Transition
-                        as={React.Fragment}
-                        enter='transition ease-out duration-100'
-                        enterFrom='transform opacity-0 scale-95'
-                        enterTo='transform opacity-100 scale-100'
-                        leave='transition ease-in duration-75'
-                        leaveFrom='transform opacity-100 scale-100'
-                        leaveTo='transform opacity-0 scale-95'
-                    >
-                        <Menu.Items className='absolute left-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
-                            {/* Hi, user */}
-                            <div className='py-1'>
-                                {user ? (
-                                    <Menu.Item>
-                                        {({ active }) => (
-                                            <a
-                                                href='#'
-                                                className={classNames(
-                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                    'block px-4 py-2 text-sm'
-                                                )}
-                                            >
-                                                Hi, {user.username}
-                                            </a>
-                                        )}
-                                    </Menu.Item>
-                                ) : (
-                                    <Menu.Item>
-                                        {({ active }) => (
-                                            <a
-                                                href='#'
-                                                className={classNames(
-                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                    'block px-4 py-2 text-sm'
-                                                )}
-                                            >
-                                                Hi, User
-                                            </a>
-                                        )}
-                                    </Menu.Item>
-                                )}
-                            </div>
-                            {/* dashboard */}
-                            <div className='py-1'>
-                                {user && (
-                                    <Menu.Item>
-                                        {({ active }) => (
-                                            <a
-                                                href='#'
-                                                className={classNames(
-                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                    'block px-4 py-2 text-sm'
-                                                )}
-                                            >
-                                                My Profile
-                                            </a>
-                                        )}
-                                    </Menu.Item>
-                                )}
-                                <Menu.Item>
-                                    {({ active }) => (
-                                        <a
-                                            href='#'
-                                            className={classNames(
-                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                'block px-4 py-2 text-sm'
-                                            )}
-                                        >
-                                            Settings
-                                        </a>
-                                    )}
-                                </Menu.Item>
-                                {user && (
-                                    <Menu.Item>
-                                        {({ active }) => (
-                                            <a
-                                                href='#'
-                                                className={classNames(
-                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                    'block px-4 py-2 text-sm'
-                                                )}
-                                            >
-                                                Cart
-                                            </a>
-                                        )}
-                                    </Menu.Item>
-                                )}
-                                {user && (
-                                    <Menu.Item>
-                                        {({ active }) => (
-                                            <a
-                                                href='#'
-                                                className={classNames(
-                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                    'block px-4 py-2 text-sm'
-                                                )}
-                                            >
-                                                Order
-                                            </a>
-                                        )}
-                                    </Menu.Item>
-                                )}
-                                <Menu.Item>
-                                    {({ active }) => (
-                                        <a
-                                            href='#'
-                                            className={classNames(
-                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                'block px-4 py-2 text-sm'
-                                            )}
-                                        >
-                                            History
-                                        </a>
-                                    )}
-                                </Menu.Item>
-                            </div>
-                            {/* login - logout */}
-                            <div className='py-1'>
-                                {user ? (
-                                    <Menu.Item>
-                                        {({ active }) => (
-                                            <a
-                                                href='#'
-                                                className={classNames(
-                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                    'block px-4 py-2 text-sm'
-                                                )}
-                                                onClick={handleLogout}
-                                            >
-                                                Logout
-                                            </a>
-                                        )}
-                                    </Menu.Item>
-                                ) : (
-                                    <Menu.Item>
-                                        {({ active }) => (
-                                            <a
-                                                href='/login'
-                                                className={classNames(
-                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                    'block px-4 py-2 text-sm'
-                                                )}
-                                            >
-                                                Login
-                                            </a>
-                                        )}
-                                    </Menu.Item>
-                                )}
-
-                            </div>
-                        </Menu.Items>
-                    </Transition>
                 </Menu>
             </div>
             <hr className="my-4 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-6" />
             {/* Dashboard */}
 
             <div class="w-full text-gray-900 bg-white dark:text-white">
-                <Link to={'#'}>
+                <Link to={'/dashboard/profile'}>
                     <button type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium border-b border-gray-200 hover:bg-gray-100 hover:text-green-500 focus:z-10  focus:bg-green-500 focus:text-black dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
                         <CiUser size={18} />
                         <div className='pl-2 invisible sm:visible'>
