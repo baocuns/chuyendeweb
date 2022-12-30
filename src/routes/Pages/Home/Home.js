@@ -11,6 +11,7 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import moment from "moment";
 import { Zoom } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
+import { formatVND } from "../../../utils/function";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -314,7 +315,7 @@ function Home() {
             {homeList &&
               homeList.map((tour) => (
                 <div class=" max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                 <a onClick={() => navigate('/detail-tour', { state: { tourdata: tour } })}>
+                  <a onClick={() => navigate('/detail-tour', { state: { tourdata: tour } })}>
                     <img
                       class=" rounded-t-lg w-full h-60"
                       src={tour.images[0]}
@@ -395,8 +396,8 @@ function Home() {
                     </p>
                     <div class="flex items-center justify-between">
                       <span class="text-3xl font-bold text-gray-900 dark:text-white">
-                        {tour.price}
-                        VNĐ
+                        {formatVND(tour.price)}
+                        {/* VNĐ */}
                       </span>
                       <a
                         href="#"
