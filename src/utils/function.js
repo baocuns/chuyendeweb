@@ -1,10 +1,10 @@
 import axios from "axios";
 import { sendRatingRoute } from "../init";
 import TimeAgo from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en'
+import vi from 'javascript-time-ago/locale/vi'
 
-TimeAgo.addDefaultLocale(en)
-const timeAgo = new TimeAgo('en-US')
+TimeAgo.addDefaultLocale(vi)
+const timeAgo = new TimeAgo('vi-VN')
 
 const formatVND = (money) => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(money);
