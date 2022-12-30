@@ -9,7 +9,6 @@ import Login from './Pages/Login'
 import Tour from './Pages/Tour'
 import Home from './Pages/Home'
 
-import Slider from './Pages/Slider'
 
 import Checkout from './Pages/Checkout/Checkout'
 
