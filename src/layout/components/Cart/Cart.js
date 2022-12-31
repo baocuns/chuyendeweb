@@ -11,6 +11,7 @@ import Components from '../../../components'
 import { API_HOST } from '../../../init'
 import * as Hi from "react-icons/hi";
 import socket from '../../../socket.io'
+import { formatVND } from '../../../utils/function'
 
 
 export default function Cart({ Open, handleOpen }) {
@@ -207,13 +208,11 @@ export default function Cart({ Open, handleOpen }) {
                                                                             </h3>
                                                                             <div>
                                                                                 <p className="ml-4 text-sm md:text-base">
-                                                                                    <strike>
-                                                                                        {tour.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
-                                                                                    </strike>
+                                                                                    {formatVND(tour.price)}
                                                                                 </p>
                                                                                 {tour.price !== tour.sale && (
                                                                                     <p className="ml-4 text-sm md:text-base">
-                                                                                        {tour.sale.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
+                                                                                        {formatVND(tour.sale)}
                                                                                     </p>
                                                                                 )}
                                                                             </div>
@@ -244,7 +243,7 @@ export default function Cart({ Open, handleOpen }) {
                                             <div className="flex justify-between text-base font-medium text-gray-900">
                                                 <p>Subtotal</p>
 
-                                                <p>{total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</p>
+                                                <p>{formatVND(total)}</p>
                                             </div>
                                             <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                                             <div className="mt-6">
