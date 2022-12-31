@@ -10,7 +10,8 @@ import moment from 'moment'
 import { Zoom } from 'react-slideshow-image'
 import 'react-slideshow-image/dist/styles.css'
 import { Carousel } from 'antd'
-import { formatVND } from '../../../utils/function'
+import { formatVND, handleAddToCart } from '../../../utils/function'
+import { ToastContainer } from 'react-toastify'
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -30,6 +31,8 @@ const slides = [
 ]
 
 function Home() {
+  const user = useSelector((state) => state.auth.login.currentUser)
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0)
   const [cartList, setCartList] = useState([])
@@ -140,6 +143,7 @@ function Home() {
   return (
     <div className="bg-white">
       {/* slider */}
+      <ToastContainer />
       <Carousel autoplay>
         {slides.map((slide) => (
           <div>
@@ -253,8 +257,8 @@ function Home() {
                         {formatVND(tour.price)}
                       </span>
                       <a
-                        href="#"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        onClick={() => handleAddToCart(tour._id, user.accessToken, user._id, dispatch)}
+                        class="text-white cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                       >
                         Add to cart
                       </a>
@@ -275,15 +279,18 @@ function Home() {
         <div class="grid gap-x-8 gap-y-4 grid-rows-1 py-4">
           {cartList &&
             cartList.map((card) => (
-              <div onClick={() => navigate('/detail-tour', { state: { tourdata: card } })} class="flex rounded-lg bg-white shadow-lg">
+              <div class="flex rounded-lg bg-white shadow-lg">
                 <div class="flex-none">
                   <img
+                    onClick={() => navigate('/detail-tour', { state: { tourdata: card } })}
                     class="min-h-full w-full h-96 md:h-auto object-cover md:w-48 rounded-t-lg md:rounded-none md:rounded-l-lg"
                     src={card.images[0]}
                     alt=""
                   />
                 </div>
-                <div class="p-4 flex-1 flex-col justify-start">
+                <div
+                  onClick={() => navigate('/detail-tour', { state: { tourdata: card } })}
+                  class="p-4 flex-col justify-start flex-1">
                   <h5 class="text-gray-900 text-xl font-medium mb-2">{card.title}</h5>
                   <p class="text-gray-700 text-base mb-4">
                     {card.address_start} - {card.address_end}
@@ -345,7 +352,7 @@ function Home() {
                     </span>
                   </div>
                 </div>
-                <div class="content-end pr-1 justify-self-end p-4">
+                <div class="pr-1 p-4" style={{ width: 250 }}>
                   <p>giá chỉ từ</p>
                   <div class="flex items-center justify-between">
                     <span class="text-2xl font-bold text-gray-900 dark:text-red-600">
@@ -357,8 +364,8 @@ function Home() {
                   </p>
                   <div class="pt-2">
                     <a
-                      href="#"
-                      class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      onClick={() => handleAddToCart(card._id, user.accessToken, user._id, dispatch)}
+                      class="text-white cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
                       Add to cart
                     </a>

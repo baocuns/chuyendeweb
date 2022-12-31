@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { formatTime, formatVND, sendRatingAction } from '../../../utils/function'
+import { formatTime, formatVND, handleAddToCart, sendRatingAction } from '../../../utils/function'
 import { useDispatch, useSelector } from 'react-redux'
 import { callApiFailed, callApiStart, callApiSuccess } from '../../../redux/apiSlice'
 import { useLocation } from 'react-router-dom'
@@ -8,6 +8,8 @@ import { Avatar, Breadcrumb, Carousel, Image } from 'antd';
 import { Rate } from 'antd';
 import { showAllRatingRoute } from '../../../init'
 import { Rating } from '@mui/material'
+import { ToastContainer } from 'react-toastify'
+
 
 const contentStyle = {
     height: '500px',
@@ -20,6 +22,7 @@ const contentStyle = {
 
 export default function DetailTour() {
     const dispatch = useDispatch()
+
     let rating = 5;
     let ratingContent = "";
     const [ratingData, setRatingData] = useState(null);
@@ -143,35 +146,7 @@ export default function DetailTour() {
         }
     }
 
-    const handleAddToCart = async (_id) => {
 
-        dispatch(callApiStart)
-        axios.post('https://api.travels.games/api/v1/cart/store/' + _id, {
-            a: 1
-        },
-            {
-                headers: {
-                    "Accept": "application/json",
-                    "Content-type": "application/json",
-                    "token": `Travel ${user.accessToken}`,
-                    "_id": user._id
-                }
-            }
-        )
-            .then(res => {
-                const { data, ...rest } = res.data
-                dispatch(callApiSuccess(rest))
-                alert('Tour added!!!')
-                console.log(res.data);
-                api && alert(api.msg)
-            })
-            .catch(err => {
-                const { data } = err.response
-                dispatch(callApiFailed(data))
-                alert('Tour exist!!!')
-                api && alert(api.msg)
-            })
-    }
 
     useEffect(() => {
         setTour(tourdata)
@@ -180,7 +155,18 @@ export default function DetailTour() {
 
     return (
         <div className="bg-white">
-
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <ModalRating />
             <div className="container md:container md:mx-auto">
                 <Breadcrumb>
@@ -221,7 +207,7 @@ export default function DetailTour() {
                         <p>255 Reviews</p>
                         <Rate disabled={true} defaultValue={5} tooltips={["1", "2", "3"]} />
                     </label>
-                    <button onClick={() => handleAddToCart(tour._id)} class="bg-blue-500 m-3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <button onClick={() => handleAddToCart(tour._id, user.accessToken, user._id, dispatch)} class="bg-blue-500 m-3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Add to Cart
                     </button>
                 </div>
